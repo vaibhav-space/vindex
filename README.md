@@ -97,7 +97,7 @@ Video File (.mp4, .mov, …)
 
 Every extraction stage is **independently replaceable** via a clean plugin interface. Swap out any model or runtime without touching the rest of the pipeline.
 
-See [ARCHITECTURE.md](ARCHITECTURE.md) for the full pipeline design.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full pipeline design.
 
 ---
 
@@ -129,7 +129,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for the full pipeline design.
 | **Python** | 3.11+ | 3.12 |
 | **ffmpeg** | Required (system install: `brew install ffmpeg`) | Latest stable |
 
-> **Linux support:** The pipeline runs on Linux with CPU-based inference. Replace `mlx-vlm` with a `llama.cpp` runtime plugin for NVIDIA GPU acceleration. See [ARCHITECTURE.md](ARCHITECTURE.md) for the plugin interface.
+> **Linux support:** The pipeline runs on Linux with CPU-based inference. Replace `mlx-vlm` with a `llama.cpp` runtime plugin for NVIDIA GPU acceleration. See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the plugin interface.
 
 > **GPU:** No dedicated GPU required. All default runtimes run on CPU or Apple's Metal GPU via the unified memory architecture. No CUDA dependency.
 
@@ -272,7 +272,7 @@ The REST API is fully documented via the auto-generated OpenAPI spec at `http://
 | 5 | Plugin system and documentation | 🔄 In progress |
 | 6 | Evaluation harness | ✅ Complete |
 
-See [PROJECT_STATE.md](PROJECT_STATE.md) for detailed status and known gaps.
+See [docs/PROJECT_STATE.md](docs/PROJECT_STATE.md) for detailed status and known gaps.
 
 ---
 
@@ -280,13 +280,13 @@ See [PROJECT_STATE.md](PROJECT_STATE.md) for detailed status and known gaps.
 
 | Document | Purpose |
 |---|---|
-| [ARCHITECTURE.md](ARCHITECTURE.md) | Pipeline design, plugin system, canonical terminology |
-| [TECH_STACK.md](TECH_STACK.md) | Every technology decision with full rationale and trade-offs |
-| [ROADMAP.md](ROADMAP.md) | Phased implementation plan with milestones and dependencies |
-| [VISION.md](VISION.md) | Long-term philosophy, first principles, non-goals |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Pipeline design, plugin system, canonical terminology |
+| [docs/TECH_STACK.md](docs/TECH_STACK.md) | Every technology decision with full rationale and trade-offs |
+| [docs/ROADMAP.md](docs/ROADMAP.md) | Phased implementation plan with milestones and dependencies |
+| [docs/VISION.md](docs/VISION.md) | Long-term philosophy, first principles, non-goals |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | How to contribute — setup, conventions, PR expectations |
-| [PROJECT_CONSTRAINTS.md](PROJECT_CONSTRAINTS.md) | Non-negotiable constraints that will never be compromised |
-| [GLOSSARY.md](GLOSSARY.md) | Canonical terminology used across the codebase |
+| [docs/PROJECT_CONSTRAINTS.md](docs/PROJECT_CONSTRAINTS.md) | Non-negotiable constraints that will never be compromised |
+| [docs/GLOSSARY.md](docs/GLOSSARY.md) | Canonical terminology used across the codebase |
 
 ---
 
