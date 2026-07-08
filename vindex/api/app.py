@@ -2,11 +2,11 @@ import json
 import logging
 import uuid
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional
 
-from fastapi import FastAPI, BackgroundTasks, UploadFile, File, Form, HTTPException
-from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
+from fastapi import BackgroundTasks, FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, HTMLResponse
 
 from vindex.compiler.pipeline import compile_video
 
@@ -35,7 +35,7 @@ BASE_JOBS_DIR.mkdir(parents=True, exist_ok=True)
 # In-memory job state tracking
 JOBS: Dict[str, Dict[str, Any]] = {}
 
-def background_compile(job_id: str, video_temp_path: Path, job_dir: Path, config: dict):
+def background_compile(job_id: str, video_temp_path: Path, job_dir: Path, config: dict[str, Any]) -> None:
     try:
         logger.info(f"Starting job {job_id} on {video_temp_path}")
         JOBS[job_id]["status"] = "processing"
@@ -80,8 +80,8 @@ async def compile_video_endpoint(
     background_tasks: BackgroundTasks,
     video: UploadFile = File(...),
     sampling_strategy: str = Form("middle"),
-    stages: str = Form(None)
-):
+    stages: Optional[str] = Form(None)
+) -> dict[str, Any]:
     job_id = str(uuid.uuid4())
     job_dir = BASE_JOBS_DIR / job_id
     job_dir.mkdir(parents=True, exist_ok=True)
@@ -94,7 +94,7 @@ async def compile_video_endpoint(
             f.write(content)
     except Exception as e:
         logger.error(f"Failed to write temp video file: {e}")
-        raise HTTPException(status_code=500, detail=f"Failed to upload video file: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to upload video file: {str(e)}") from e
 
     # Construct Vindex configuration
     config = {
@@ -130,7 +130,7 @@ async def compile_video_endpoint(
     return {"job_id": job_id, "status": "processing"}
 
 @app.get("/api/jobs/{job_id}/status")
-def get_job_status(job_id: str):
+def get_job_status(job_id: str) -> dict[str, Any]:
     if job_id not in JOBS:
         raise HTTPException(status_code=404, detail="Job not found")
     job = JOBS[job_id]
@@ -142,7 +142,7 @@ def get_job_status(job_id: str):
     }
 
 @app.get("/api/jobs/{job_id}/result")
-def get_job_result(job_id: str):
+def get_job_result(job_id: str) -> Any:
     if job_id not in JOBS:
         raise HTTPException(status_code=404, detail="Job not found")
     job = JOBS[job_id]
@@ -151,7 +151,7 @@ def get_job_result(job_id: str):
     return job["result"]
 
 @app.get("/api/jobs/{job_id}/narration")
-def get_job_narration(job_id: str):
+def get_job_narration(job_id: str) -> dict[str, str]:
     if job_id not in JOBS:
         raise HTTPException(status_code=404, detail="Job not found")
     job = JOBS[job_id]
@@ -160,7 +160,7 @@ def get_job_narration(job_id: str):
     return {"markdown": job["narration"]}
 
 @app.get("/api/jobs/{job_id}/frame/{filename}")
-def get_job_frame(job_id: str, filename: str):
+def get_job_frame(job_id: str, filename: str) -> FileResponse:
     if job_id not in JOBS:
         raise HTTPException(status_code=404, detail="Job not found")
     
@@ -171,7 +171,7 @@ def get_job_frame(job_id: str, filename: str):
     return FileResponse(frame_path)
 
 @app.get("/", response_class=HTMLResponse)
-def get_index():
+def get_index() -> HTMLResponse:
     static_file = Path(__file__).parent / "static" / "index.html"
     if static_file.exists():
         return HTMLResponse(content=static_file.read_text(encoding="utf-8"), status_code=200)
