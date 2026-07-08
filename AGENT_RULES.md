@@ -217,6 +217,23 @@ If you are uncertain whether a dependency does any of these things, check its so
 
 ---
 
+## Rule 16 — No hidden downloads
+
+Any model weights, datasets, or external assets must be explicitly installed by the user or configured via a local path in the config file.
+
+The library must never initiate implicit network downloads during normal execution.
+
+Specifically:
+
+- Never call `model.from_pretrained("model-name")` without checking that a local `model_dir` path exists first
+- If a required model path is missing, raise a clear `ModelNotFoundError` with instructions for how to download the model manually
+- If a library auto-downloads on import or first use (e.g., `sentence-transformers`, `paddleocr`), suppress this with `local_files_only=True` or equivalent — and document the suppression in `ASSUMPTIONS.md`
+- Use `pytest-socket` in tests to verify no network calls occur during import or execution of non-opt-in code paths
+
+This rule directly enforces the local-first constraint in [PROJECT_CONSTRAINTS.md](PROJECT_CONSTRAINTS.md) at the code level.
+
+---
+
 ## Summary Reference
 
 | Rule | One-line summary |
@@ -236,3 +253,4 @@ If you are uncertain whether a dependency does any of these things, check its so
 | 13 | Never redesign architecture without evidence and ADR |
 | 14 | Update PROJECT_STATE.md after completing milestones |
 | 15 | Never introduce hidden cloud dependencies |
+| 16 | No hidden downloads — all model paths must be explicit and local |

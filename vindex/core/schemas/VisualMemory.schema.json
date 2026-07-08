@@ -1,0 +1,2214 @@
+{
+  "$defs": {
+    "ASRWordObservation": {
+      "description": "Observation representing a single transcribed word.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "ASR confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "asr",
+          "default": "asr",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "word": {
+          "description": "The transcribed text word",
+          "title": "Word",
+          "type": "string"
+        },
+        "start_ms": {
+          "description": "Start time of the word in milliseconds",
+          "title": "Start Ms",
+          "type": "integer"
+        },
+        "end_ms": {
+          "description": "End time of the word in milliseconds",
+          "title": "End Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "word",
+        "start_ms",
+        "end_ms"
+      ],
+      "title": "ASRWordObservation",
+      "type": "object"
+    },
+    "AudioEventObservation": {
+      "description": "Observation representing a non-speech audio event (laughter, applause, etc.).",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "audio_event",
+          "default": "audio_event",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "label": {
+          "description": "Type/label of the audio event",
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "label"
+      ],
+      "title": "AudioEventObservation",
+      "type": "object"
+    },
+    "CaptionObservation": {
+      "description": "Observation representing a description generated by a Vision-Language Model.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "1.0",
+          "description": "Version of the VLM model used",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "caption",
+          "default": "caption",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "description": "The shot this caption describes",
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "caption_text": {
+          "description": "The natural language caption text",
+          "title": "Caption Text",
+          "type": "string"
+        },
+        "model_id": {
+          "default": "unknown",
+          "description": "Name/ID of the VLM model used",
+          "title": "Model Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "shot_id",
+        "caption_text"
+      ],
+      "title": "CaptionObservation",
+      "type": "object"
+    },
+    "ColorObservation": {
+      "description": "Observation representing dominant color palette and screen brightness.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "color",
+          "default": "color",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "dominant_palette": {
+          "description": "List of dominant colors as Hex strings",
+          "items": {
+            "type": "string"
+          },
+          "title": "Dominant Palette",
+          "type": "array"
+        },
+        "brightness": {
+          "description": "Average frame brightness value between 0.0 and 1.0",
+          "title": "Brightness",
+          "type": "number"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "brightness"
+      ],
+      "title": "ColorObservation",
+      "type": "object"
+    },
+    "Event": {
+      "description": "A specific occurrence derived from observations.",
+      "properties": {
+        "event_id": {
+          "description": "Unique identifier for this event",
+          "title": "Event Id",
+          "type": "string"
+        },
+        "event_type": {
+          "$ref": "#/$defs/EventType",
+          "description": "The type of event"
+        },
+        "start_ms": {
+          "description": "Start time of the event in milliseconds",
+          "title": "Start Ms",
+          "type": "integer"
+        },
+        "end_ms": {
+          "description": "End time of the event in milliseconds",
+          "title": "End Ms",
+          "type": "integer"
+        },
+        "source_shot_ids": {
+          "description": "List of shot IDs associated with this event",
+          "items": {
+            "type": "string"
+          },
+          "title": "Source Shot Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "event_id",
+        "event_type",
+        "start_ms",
+        "end_ms"
+      ],
+      "title": "Event",
+      "type": "object"
+    },
+    "EventType": {
+      "enum": [
+        "SpeakerChange",
+        "SlideTransition",
+        "SceneBoundary",
+        "Custom"
+      ],
+      "title": "EventType",
+      "type": "string"
+    },
+    "FrameObservation": {
+      "description": "Observation representing a sampled keyframe.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "frame",
+          "default": "frame",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "description": "The shot this keyframe belongs to",
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "frame_path": {
+          "description": "Local path to the saved keyframe image file",
+          "title": "Frame Path",
+          "type": "string"
+        },
+        "frame_hash": {
+          "description": "SHA-256 hash of the frame image contents",
+          "title": "Frame Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "shot_id",
+        "frame_path",
+        "frame_hash"
+      ],
+      "title": "FrameObservation",
+      "type": "object"
+    },
+    "LayoutObservation": {
+      "description": "Observation representing document or slide layout segmentation.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "layout",
+          "default": "layout",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "reading_order_blocks": {
+          "description": "Sequence of text reading blocks",
+          "items": {
+            "additionalProperties": true,
+            "type": "object"
+          },
+          "title": "Reading Order Blocks",
+          "type": "array"
+        }
+      },
+      "required": [
+        "timestamp_ms"
+      ],
+      "title": "LayoutObservation",
+      "type": "object"
+    },
+    "MotionObservation": {
+      "description": "Observation representing motion intensity and camera movements.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "motion",
+          "default": "motion",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "motion_score": {
+          "description": "Calculated motion diff score",
+          "title": "Motion Score",
+          "type": "number"
+        },
+        "camera_movement": {
+          "description": "Identified camera movement (e.g. static, pan, tilt)",
+          "title": "Camera Movement",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "motion_score",
+        "camera_movement"
+      ],
+      "title": "MotionObservation",
+      "type": "object"
+    },
+    "OCRObservation": {
+      "description": "Observation representing text detected on screen.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "OCR confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "ocr",
+          "default": "ocr",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "description": "Bounding box coordinates in format [x, y, w, h]",
+          "items": {
+            "type": "number"
+          },
+          "title": "Bbox",
+          "type": "array"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "description": "Path or ID of the frame this OCR text was found in",
+          "title": "Frame Ref",
+          "type": "string"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "text": {
+          "description": "Transcribed screen text",
+          "title": "Text",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "bbox",
+        "frame_ref",
+        "text"
+      ],
+      "title": "OCRObservation",
+      "type": "object"
+    },
+    "ObjectObservation": {
+      "description": "Observation representing a detected object inside a frame.",
+      "properties": {
+        "observation_id": {
+          "default": "",
+          "description": "Unique identifier for this observation",
+          "title": "Observation Id",
+          "type": "string"
+        },
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this observation",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "timestamp_ms": {
+          "description": "Timestamp in milliseconds from start of video",
+          "title": "Timestamp Ms",
+          "type": "integer"
+        },
+        "duration_ms": {
+          "default": 0,
+          "description": "Duration in milliseconds of this observation",
+          "title": "Duration Ms",
+          "type": "integer"
+        },
+        "source": {
+          "default": "",
+          "description": "The source/extractor that generated this observation (v1.0 compat)",
+          "title": "Source",
+          "type": "string"
+        },
+        "source_module": {
+          "default": "",
+          "description": "The perception module that generated this observation",
+          "title": "Source Module",
+          "type": "string"
+        },
+        "runtime_name": {
+          "default": "",
+          "description": "The runtime engine name",
+          "title": "Runtime Name",
+          "type": "string"
+        },
+        "runtime_version": {
+          "default": "",
+          "description": "The runtime engine version",
+          "title": "Runtime Version",
+          "type": "string"
+        },
+        "model_name": {
+          "default": "",
+          "description": "The model name",
+          "title": "Model Name",
+          "type": "string"
+        },
+        "model_version": {
+          "default": "",
+          "description": "The model version",
+          "title": "Model Version",
+          "type": "string"
+        },
+        "processing_time_ms": {
+          "default": 0,
+          "description": "Inference time in milliseconds",
+          "title": "Processing Time Ms",
+          "type": "integer"
+        },
+        "confidence": {
+          "default": 1.0,
+          "description": "Confidence score between 0.0 and 1.0",
+          "title": "Confidence",
+          "type": "number"
+        },
+        "observation_type": {
+          "const": "object",
+          "default": "object",
+          "title": "Observation Type",
+          "type": "string"
+        },
+        "bbox": {
+          "anyOf": [
+            {
+              "items": {
+                "type": "number"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Normalized bounding box [x, y, w, h]",
+          "title": "Bbox"
+        },
+        "polygon": {
+          "anyOf": [
+            {
+              "items": {
+                "items": {
+                  "type": "number"
+                },
+                "type": "array"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Corner points [[x, y], ...]",
+          "title": "Polygon"
+        },
+        "coordinate_system": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Coordinate system type (e.g., 'normalized')",
+          "title": "Coordinate System"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Target region ID",
+          "title": "Region Id"
+        },
+        "image_reference": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Path or reference to image file",
+          "title": "Image Reference"
+        },
+        "frame_ref": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to frame path or ID",
+          "title": "Frame Ref"
+        },
+        "shot_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to shot ID",
+          "title": "Shot Id"
+        },
+        "scene_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Reference to scene ID",
+          "title": "Scene Id"
+        },
+        "label": {
+          "description": "Class label of the detected object",
+          "title": "Label",
+          "type": "string"
+        }
+      },
+      "required": [
+        "timestamp_ms",
+        "label"
+      ],
+      "title": "ObjectObservation",
+      "type": "object"
+    },
+    "Relationship": {
+      "description": "A temporal/spatial link between two elements (e.g. OCR text overlapping a caption).",
+      "properties": {
+        "relationship_id": {
+          "description": "Unique identifier for this relationship",
+          "title": "Relationship Id",
+          "type": "string"
+        },
+        "source_id": {
+          "description": "ID of the source element",
+          "title": "Source Id",
+          "type": "string"
+        },
+        "target_id": {
+          "description": "ID of the target element",
+          "title": "Target Id",
+          "type": "string"
+        },
+        "relationship_type": {
+          "description": "Type of relationship (e.g., temporal_overlap, ocr_caption_match)",
+          "title": "Relationship Type",
+          "type": "string"
+        },
+        "metadata": {
+          "additionalProperties": true,
+          "description": "Additional context metadata",
+          "title": "Metadata",
+          "type": "object"
+        }
+      },
+      "required": [
+        "relationship_id",
+        "source_id",
+        "target_id",
+        "relationship_type"
+      ],
+      "title": "Relationship",
+      "type": "object"
+    },
+    "Scene": {
+      "description": "A semantically coherent group of one or more Shots.",
+      "properties": {
+        "scene_id": {
+          "description": "Unique identifier for this scene",
+          "title": "Scene Id",
+          "type": "string"
+        },
+        "shots": {
+          "description": "List of shots grouped in this scene",
+          "items": {
+            "$ref": "#/$defs/Shot"
+          },
+          "title": "Shots",
+          "type": "array"
+        },
+        "start_ms": {
+          "description": "Start time of this scene in milliseconds",
+          "title": "Start Ms",
+          "type": "integer"
+        },
+        "end_ms": {
+          "description": "End time of this scene in milliseconds",
+          "title": "End Ms",
+          "type": "integer"
+        },
+        "dominant_caption": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Summarized or representative caption for the scene",
+          "title": "Dominant Caption"
+        }
+      },
+      "required": [
+        "scene_id",
+        "shots",
+        "start_ms",
+        "end_ms"
+      ],
+      "title": "Scene",
+      "type": "object"
+    },
+    "Shot": {
+      "description": "A compiled shot combining various extractor observations (v2.0).",
+      "properties": {
+        "shot_id": {
+          "description": "Unique identifier for this shot",
+          "title": "Shot Id",
+          "type": "string"
+        },
+        "start_ms": {
+          "description": "Start time of this shot in milliseconds",
+          "title": "Start Ms",
+          "type": "integer"
+        },
+        "end_ms": {
+          "description": "End time of this shot in milliseconds",
+          "title": "End Ms",
+          "type": "integer"
+        },
+        "frames": {
+          "description": "Keyframes sampled within this shot",
+          "items": {
+            "$ref": "#/$defs/FrameObservation"
+          },
+          "title": "Frames",
+          "type": "array"
+        },
+        "asr_words": {
+          "description": "ASR transcribed words falling in this shot",
+          "items": {
+            "$ref": "#/$defs/ASRWordObservation"
+          },
+          "title": "Asr Words",
+          "type": "array"
+        },
+        "ocr": {
+          "description": "OCR text detected on screen in this shot",
+          "items": {
+            "$ref": "#/$defs/OCRObservation"
+          },
+          "title": "Ocr",
+          "type": "array"
+        },
+        "caption": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CaptionObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "VLM-generated caption of this shot"
+        },
+        "objects": {
+          "default": [],
+          "description": "Object detections inside this shot",
+          "items": {
+            "$ref": "#/$defs/ObjectObservation"
+          },
+          "title": "Objects",
+          "type": "array"
+        },
+        "motion": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MotionObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Motion analysis results for this shot"
+        },
+        "layout": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/LayoutObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Slide/document layout parsed in this shot"
+        },
+        "colors": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ColorObservation"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "Dominant colors and brightness index"
+        },
+        "audio_events": {
+          "default": [],
+          "description": "Audio events occurring in this shot",
+          "items": {
+            "$ref": "#/$defs/AudioEventObservation"
+          },
+          "title": "Audio Events",
+          "type": "array"
+        }
+      },
+      "required": [
+        "shot_id",
+        "start_ms",
+        "end_ms"
+      ],
+      "title": "Shot",
+      "type": "object"
+    },
+    "Timeline": {
+      "description": "The master timeline sequencing all Scenes and Events in the video.",
+      "properties": {
+        "schema_version": {
+          "default": "2.0",
+          "description": "Schema version of this timeline",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "video_hash": {
+          "description": "SHA-256 hash of the compiled video",
+          "title": "Video Hash",
+          "type": "string"
+        },
+        "scenes": {
+          "description": "Chronological list of scenes",
+          "items": {
+            "$ref": "#/$defs/Scene"
+          },
+          "title": "Scenes",
+          "type": "array"
+        },
+        "events": {
+          "description": "Chronological list of derived events",
+          "items": {
+            "$ref": "#/$defs/Event"
+          },
+          "title": "Events",
+          "type": "array"
+        },
+        "relationships": {
+          "description": "Resolved relationships between elements",
+          "items": {
+            "$ref": "#/$defs/Relationship"
+          },
+          "title": "Relationships",
+          "type": "array"
+        },
+        "total_duration_ms": {
+          "description": "Total duration of the video in milliseconds",
+          "title": "Total Duration Ms",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "video_hash",
+        "scenes",
+        "total_duration_ms"
+      ],
+      "title": "Timeline",
+      "type": "object"
+    }
+  },
+  "description": "The top-level compiled output index artifact.",
+  "properties": {
+    "schema_version": {
+      "default": "2.0",
+      "description": "Schema version of this visual memory",
+      "title": "Schema Version",
+      "type": "string"
+    },
+    "video_hash": {
+      "description": "SHA-256 hash of the compiled video",
+      "title": "Video Hash",
+      "type": "string"
+    },
+    "generated_at": {
+      "description": "ISO-8601 timestamp representing compilation completion",
+      "title": "Generated At",
+      "type": "string"
+    },
+    "timeline": {
+      "$ref": "#/$defs/Timeline",
+      "description": "The compiled timeline"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "description": "Metadata dictionary for customization",
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "video_hash",
+    "generated_at",
+    "timeline"
+  ],
+  "title": "VisualMemory",
+  "type": "object"
+}

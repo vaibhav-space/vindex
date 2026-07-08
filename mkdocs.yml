@@ -1,0 +1,17 @@
+site_name: vindex
+site_description: Open-source, local-first video knowledge compiler.
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: indigo
+    accent: indigo
+nav:
+  - Welcome: index.md
+  - Architecture: architecture.md
+  - Extractor Layer: extractors.md
+  - Compiler: compiler.md
+  - Narration Layer: narration.md
+  - CLI & SDK: cli.md
+  - Custom Plugins: plugins.md
+  - Contributing: contributing.md

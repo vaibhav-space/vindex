@@ -163,20 +163,47 @@ All output artifacts are versioned JSON validated against Pydantic schemas. Ever
 
 ## Plugin Architecture
 
-Every replaceable component — OCR engine, VLM backend, ASR engine, model runtime — is exposed behind a typed interface. A plugin implements the interface and registers itself via Python `entry_points` (the standard `importlib.metadata` mechanism — the same one pytest and flake8 use).
+Every replaceable component is exposed behind a typed interface. There are two levels of plugin:
+
+### Extractor Interface
+
+`Extractor` is the abstract base class all extraction stages implement. An extractor accepts a video path and a config dict, and emits a stream of `Observation` objects. All extractors are independently testable in isolation.
+
+### Typed Runtime Interfaces
+
+Every inference category has its own typed abstract interface. Extractors consume these interfaces via constructor injection — never by importing concrete model libraries directly. Only files in `/runtimes/` may import concrete libraries.
+
+| Interface | Responsibility | V1 Implementation |
+|---|---|---|
+| `ASRRuntime` | Audio → word-level transcript | `FasterWhisperRuntime`, `WhisperCppRuntime` |
+| `OCRRuntime` | Frame image → text regions with bounding boxes | `PaddleOCRRuntime` |
+| `VisionRuntime` | Frame image(s) + prompt → caption string | `MLXVLMRuntime` (Qwen2.5-VL) |
+| `EmbeddingRuntime` | Text list → dense vectors | `MiniLMEmbeddingRuntime` |
+| `LLMRuntime` | Prompt → generated text (narration layer only) | shares `MLXVLMRuntime` |
+
+**Dependency injection rule:** Every extractor's `__init__` accepts its runtime as a constructor argument. The compiler wires extractors and runtimes together at startup. This means:
+- Extractors are testable with mocked runtimes — no model weights needed in CI
+- Swapping a runtime (e.g., replacing `MLXVLMRuntime` with an `OllamaRuntime`) requires zero changes to the extractor
+- New runtime implementations (CUDA, Transformers, API-backed with opt-in) can be added as third-party plugins without touching the core package
+
+### Output Plugins
+
+`OutputPlugin` handles writing compiled artifacts to a specific format or destination. The default output is plain JSON files to a local directory. Additional output plugins (e.g., CBOR format, SQLite-backed output) register via Python `entry_points`.
+
+### Plugin Discovery
+
+All plugin categories use Python `entry_points` (the standard `importlib.metadata` mechanism — the same one pytest and flake8 use for plugin discovery):
+
+```toml
+# In a plugin package's pyproject.toml
+[project.entry-points."vindex.extractors"]
+faster_whisper = "my_plugin:FasterWhisperRuntime"
+```
 
 This means:
-
 - No custom plugin loader to build or maintain
-- Contributors coming from any Python OSS background already know the pattern
-- A plugin author touches exactly the interface contract and an `entry_points` registration; nothing else
-
-Plugin categories:
-- **ExtractorPlugin** — a full replacement for one extraction stage
-- **RuntimePlugin** — a model backend (MLX, llama.cpp, remote API with explicit opt-in)
-- **OutputPlugin** — an additional output format beyond the canonical JSON and Markdown
-
-The plugin interface for each category is defined in `/core` as a stable public API. Breaking changes to these interfaces follow the same versioning discipline as the output artifact schemas.
+- Contributors from any Python OSS background already know this pattern
+- A plugin installs itself via its own `pyproject.toml` — no changes to the core package required
 
 ---
 

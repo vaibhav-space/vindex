@@ -1,0 +1,83 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vindex"
+version = "0.1.0"
+description = "The open-source video knowledge compiler."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "vindex contributors" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+
+dependencies = [
+    "av>=18.0.0",
+    "diskcache>=5.6.3",
+    "faster-whisper>=1.2.1",
+    "mlx>=0.32.0",
+    "mlx-vlm>=0.6.4",
+    "paddleocr>=3.7.0",
+    "paddlepaddle>=3.3.1",
+    "pillow>=12.3.0",
+    "pydantic>=2.0.0",
+    "scenedetect>=0.7",
+    "sentence-transformers>=5.6.0",
+    "typer>=0.26.8",
+    "fastapi>=0.110.0",
+    "uvicorn>=0.28.0",
+    "python-multipart>=0.0.9",
+]
+
+
+[project.scripts]
+vindex = "vindex.cli.main:app"
+
+[dependency-groups]
+dev = [
+    "pytest>=7.0.0",
+    "mypy>=1.0.0",
+    "ruff>=0.1.0",
+    "syrupy>=4.0.0",
+]
+docs = [
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.0.0",
+]
+
+[tool.hatch.build.targets.wheel]
+packages = ["vindex"]
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I"]
+ignore = ["E501", "B008"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unreachable = true
+
+[[tool.mypy.overrides]]
+module = [
+    "scenedetect.*",
+    "cv2.*",
+    "av.*",
+    "faster_whisper.*",
+    "paddleocr.*",
+    "mlx_vlm.*",
+    "sentence_transformers.*",
+    "diskcache.*",
+    "typer.*",
+]
+ignore_missing_imports = true

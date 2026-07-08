@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vindex Studio — Video Perception Compiler</title>
+    <!-- Modern typography from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #0a0b10;
+            --bg-surface: rgba(255, 255, 255, 0.03);
+            --bg-glass: rgba(15, 17, 26, 0.7);
+            --border-glass: rgba(255, 255, 255, 0.07);
+            --text-primary: #f3f4f6;
+            --text-secondary: #9ca3af;
+            --text-muted: #6b7280;
+            --accent-primary: #8b5cf6;
+            --accent-secondary: #ec4899;
+            --accent-gradient: linear-gradient(135deg, #8b5cf6, #ec4899);
+            --success: #10b981;
+            --error: #ef4444;
+            --radius-lg: 16px;
+            --radius-md: 10px;
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-base);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(139, 92, 246, 0.1) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(236, 72, 153, 0.1) 0px, transparent 50%);
+        }
+
+        header {
+            backdrop-filter: blur(12px);
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 1.25rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--accent-gradient);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.2rem;
+            color: #fff;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.4);
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .sdk-badge {
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            color: #a78bfa;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            width: 100%;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 2rem;
+            gap: 2rem;
+            height: calc(100vh - 75px);
+        }
+
+        .left-panel {
+            width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+
+        .right-panel {
+            flex: 1;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            backdrop-filter: blur(12px);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .glass-card {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Upload Container styles */
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-md);
+            padding: 2.5rem 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.01);
+            position: relative;
+        }
+
+        .upload-zone:hover, .upload-zone.dragover {
+            border-color: var(--accent-primary);
+            background: rgba(139, 92, 246, 0.03);
+            box-shadow: inset 0 0 15px rgba(139, 92, 246, 0.05);
+        }
+
+        .upload-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .upload-zone p {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-zone span {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .file-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        /* Switch toggles for perception stages */
+        .stage-options {
+            margin-top: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .toggle-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.02);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .toggle-label {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .toggle-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .toggle-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(255, 255, 255, 0.1);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background: var(--accent-gradient);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        .btn-compile {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 0.85rem;
+            border-radius: var(--radius-md);
+            border: none;
+            background: var(--accent-gradient);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        .btn-compile:hover {
+            opacity: 0.95;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-compile:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Jobs list */
+        .jobs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            max-height: 250px;
+            overflow-y: auto;
+        }
+
+        .job-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .job-item:hover, .job-item.active {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: var(--accent-primary);
+        }
+
+        .job-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .job-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .job-status-badge {
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .job-status-badge.processing {
+            background: rgba(235, 163, 54, 0.15);
+            color: #f59e0b;
+        }
+
+        .job-status-badge.completed {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--success);
+        }
+
+        .job-status-badge.failed {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
+        }
+
+        /* Right Panel Tab System */
+        .tabs-header {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--border-glass);
+            padding: 0.5rem 1.5rem 0;
+        }
+
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 500;
+            padding: 0.75rem 1.25rem;
+            cursor: pointer;
+            position: relative;
+            transition: var(--transition-smooth);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .tab-btn.active:after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 1.25rem;
+            right: 1.25rem;
+            height: 2px;
+            background: var(--accent-gradient);
+            border-radius: 2px;
+            box-shadow: 0 0 10px rgba(139, 92, 246, 0.8);
+        }
+
+        .tabs-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .tab-panel {
+            display: none;
+            height: 100%;
+        }
+
+        .tab-panel.active {
+            display: block;
+        }
+
+        /* Empty state view */
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            height: 100%;
+            color: var(--text-secondary);
+            gap: 1rem;
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.7;
+        }
+
+        /* Loading / Progress status */
+        .progress-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            gap: 1.5rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid rgba(255, 255, 255, 0.05);
+            border-top: 3px solid var(--accent-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            box-shadow: 0 0 15px rgba(139, 92, 246, 0.2);
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .progress-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+        }
+
+        .progress-log {
+            font-family: 'JetBrains Mono', monospace;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-glass);
+            padding: 0.75rem 1.5rem;
+            border-radius: var(--radius-md);
+            font-size: 0.85rem;
+            color: #a78bfa;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        /* Narration Markdown Renderer Styling */
+        .markdown-body {
+            line-height: 1.7;
+            font-size: 1.05rem;
+            color: var(--text-primary);
+        }
+
+        .markdown-body h1, .markdown-body h2, .markdown-body h3 {
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .markdown-body h1 {
+            font-size: 2rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            border-bottom: 1px solid var(--border-glass);
+            padding-bottom: 0.5rem;
+        }
+
+        .markdown-body h2 {
+            font-size: 1.5rem;
+            color: #a78bfa;
+        }
+
+        .markdown-body h3 {
+            font-size: 1.2rem;
+            color: #f472b6;
+        }
+
+        .markdown-body p {
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .markdown-body ul, .markdown-body ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .markdown-body li {
+            margin-bottom: 0.5rem;
+        }
+
+        .markdown-body blockquote {
+            background: rgba(139, 92, 246, 0.05);
+            border-left: 4px solid var(--accent-primary);
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 1rem;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            color: #c084fc;
+        }
+
+        .markdown-body blockquote strong {
+            color: #fff;
+        }
+
+        /* Timeline Scene View */
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .timeline-card {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: var(--transition-smooth);
+        }
+
+        .timeline-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .timeline-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .scene-title {
+            font-size: 1.15rem;
+            font-weight: 600;
+            color: #a78bfa;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .scene-time {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-secondary);
+        }
+
+        .timeline-body {
+            display: flex;
+            padding: 1.5rem;
+            gap: 1.5rem;
+        }
+
+        .frame-preview {
+            width: 320px;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: var(--radius-md);
+            border: 1px solid var(--border-glass);
+            overflow: hidden;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .frame-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .frame-fallback {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            gap: 0.5rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .scene-details {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .detail-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .detail-content {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .tag-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .badge-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-glass);
+            color: var(--text-secondary);
+            padding: 0.15rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .badge-tag.motion {
+            background: rgba(236, 72, 153, 0.08);
+            border-color: rgba(236, 72, 153, 0.2);
+            color: #f472b6;
+        }
+
+        /* JSON viewer */
+        pre.json-view {
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--border-glass);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #34d399;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-container">
+            <div class="logo-icon">V</div>
+            <div class="logo-text">Vindex Studio</div>
+            <div class="sdk-badge">v2.0 Core</div>
+        </div>
+        <div class="sdk-badge" style="background: rgba(16, 185, 129, 0.1); border-color: rgba(16, 185, 129, 0.2); color: #34d399;">
+            Local Server Connected
+        </div>
+    </header>
+
+    <main>
+        <!-- Left Sidebar Section -->
+        <div class="left-panel">
+            <!-- Upload Card -->
+            <div class="glass-card">
+                <h2 class="panel-title">
+                    <span>🎬</span> Upload New Video
+                </h2>
+                <div class="upload-zone" id="uploadZone">
+                    <span class="upload-icon">📥</span>
+                    <p>Drag & Drop video file here</p>
+                    <p style="font-size: 0.8rem; color: var(--text-muted);">or click to browse filesystem</p>
+                    <span>Supports MP4, AVI, MOV</span>
+                    <input type="file" id="videoFile" class="file-input" accept="video/*">
+                </div>
+
+                <div class="stage-options">
+                    <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-top: 0.5rem;">Pipeline Options</h3>
+                    
+                    <div class="toggle-item">
+                        <div class="toggle-label">
+                            <span class="toggle-name">VLM Captioner</span>
+                            <span class="toggle-desc">Visual framing understanding</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="stage_vlm" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-item">
+                        <div class="toggle-label">
+                            <span class="toggle-name">OCR Text</span>
+                            <span class="toggle-desc">Extract on-screen overlay text</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="stage_ocr" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-item">
+                        <div class="toggle-label">
+                            <span class="toggle-name">ASR Transcriber</span>
+                            <span class="toggle-desc">Word-level audio translation</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="stage_asr" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <div class="toggle-item">
+                        <div class="toggle-label">
+                            <span class="toggle-name">Motion Dynamics</span>
+                            <span class="toggle-desc">Optical flow vector tracking</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="stage_motion" checked>
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+
+                <button class="btn-compile" id="btnCompile" disabled>Compile Video Perception</button>
+            </div>
+
+            <!-- Jobs History Card -->
+            <div class="glass-card" style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
+                <h2 class="panel-title">
+                    <span>⏳</span> Execution History
+                </h2>
+                <div class="jobs-list" id="jobsList" style="flex: 1; overflow-y: auto;">
+                    <div class="empty-state" style="padding: 1rem; color: var(--text-muted); font-size: 0.9rem;">
+                        No compilation jobs in history yet
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Visualizer Panel -->
+        <div class="right-panel">
+            <div class="tabs-header">
+                <button class="tab-btn active" onclick="switchTab('narration')">Visual Narrative</button>
+                <button class="tab-btn" onclick="switchTab('timeline')">Grounded Timeline</button>
+                <button class="tab-btn" onclick="switchTab('raw_json')">Observation Database</button>
+            </div>
+
+            <div class="tabs-content" id="tabsContent">
+                <!-- Idle State -->
+                <div class="empty-state" id="idleState">
+                    <span class="empty-state-icon">👁️</span>
+                    <h3>No video compiled yet</h3>
+                    <p style="max-width: 400px; font-size: 0.95rem;">Upload a video and trigger the Vindex pipeline in the left panel to generate structured observations.</p>
+                </div>
+
+                <!-- Processing / Loading state -->
+                <div class="progress-card" id="processingState" style="display: none;">
+                    <div class="spinner"></div>
+                    <div style="text-align: center;">
+                        <h3 class="progress-title">Running Video Compilation</h3>
+                        <p style="color: var(--text-secondary); margin-top: 0.25rem;">This runs completely locally. Please stand by...</p>
+                    </div>
+                    <div class="progress-log" id="progressLog">Queuing stages...</div>
+                </div>
+
+                <!-- Tab 1: Visual Narrative -->
+                <div class="tab-panel active" id="tab_narration" style="display: none;">
+                    <div class="markdown-body" id="narrationBody">
+                        <!-- Rendered Narrative markdown -->
+                    </div>
+                </div>
+
+                <!-- Tab 2: Grounded Timeline -->
+                <div class="tab-panel" id="tab_timeline" style="display: none;">
+                    <div class="timeline-container" id="timelineBody">
+                        <!-- Generated Scenes Timeline cards -->
+                    </div>
+                </div>
+
+                <!-- Tab 3: Raw Observations DB -->
+                <div class="tab-panel" id="tab_raw_json" style="display: none;">
+                    <pre class="json-view"><code id="rawJsonBody"></code></pre>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        let currentJobId = null;
+        let pollingInterval = null;
+        let selectedFile = null;
+
+        // Dom Elements
+        const uploadZone = document.getElementById('uploadZone');
+        const videoFileInput = document.getElementById('videoFile');
+        const btnCompile = document.getElementById('btnCompile');
+        const jobsList = document.getElementById('jobsList');
+        const idleState = document.getElementById('idleState');
+        const processingState = document.getElementById('processingState');
+        const progressLog = document.getElementById('progressLog');
+
+        const tabNarration = document.getElementById('tab_narration');
+        const tabTimeline = document.getElementById('tab_timeline');
+        const tabRawJson = document.getElementById('tab_raw_json');
+
+        const narrationBody = document.getElementById('narrationBody');
+        const timelineBody = document.getElementById('timelineBody');
+        const rawJsonBody = document.getElementById('rawJsonBody');
+
+        // Drag/Drop Listeners
+        uploadZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadZone.classList.add('dragover');
+        });
+
+        uploadZone.addEventListener('dragleave', () => {
+            uploadZone.classList.remove('dragover');
+        });
+
+        uploadZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadZone.classList.remove('dragover');
+            if (e.dataTransfer.files.length > 0) {
+                handleFileSelect(e.dataTransfer.files[0]);
+            }
+        });
+
+        videoFileInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleFileSelect(e.target.files[0]);
+            }
+        });
+
+        function handleFileSelect(file) {
+            if (!file.type.startsWith('video/')) {
+                alert('Please upload a valid video file.');
+                return;
+            }
+            selectedFile = file;
+            uploadZone.querySelector('p').innerText = `Selected: ${file.name}`;
+            uploadZone.querySelector('span').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+            btnCompile.disabled = false;
+        }
+
+        // Trigger Compilation
+        btnCompile.addEventListener('click', async () => {
+            if (!selectedFile) return;
+
+            // Get selected pipeline stages
+            const activeStages = ['scene', 'frame']; // Always run core structuring
+            if (document.getElementById('stage_vlm').checked) activeStages.push('vlm');
+            if (document.getElementById('stage_ocr').checked) activeStages.push('ocr');
+            if (document.getElementById('stage_asr').checked) activeStages.push('asr');
+            if (document.getElementById('stage_motion').checked) activeStages.push('motion');
+
+            const formData = new FormData();
+            formData.append('video', selectedFile);
+            formData.append('sampling_strategy', 'middle');
+            formData.append('stages', activeStages.join(','));
+
+            btnCompile.disabled = true;
+            btnCompile.innerText = 'Uploading...';
+
+            try {
+                const response = await fetch('/api/compile', {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`Upload failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
+                currentJobId = data.job_id;
+                
+                // Show loading
+                showProcessing("Uploading video. Queuing compilation pipeline...");
+                
+                // Reset upload button
+                btnCompile.innerText = 'Compile Video Perception';
+                btnCompile.disabled = false;
+                
+                // Start polling status
+                startPolling(currentJobId);
+            } catch (err) {
+                alert(`Error starting job: ${err.message}`);
+                btnCompile.innerText = 'Compile Video Perception';
+                btnCompile.disabled = false;
+                showIdle();
+            }
+        });
+
+        function startPolling(jobId) {
+            if (pollingInterval) clearInterval(pollingInterval);
+            
+            updateJobsListUI(jobId, 'processing', 'Processing...');
+            
+            pollingInterval = setInterval(async () => {
+                try {
+                    const res = await fetch(`/api/jobs/${jobId}/status`);
+                    if (!res.ok) throw new Error("Status check failed");
+                    
+                    const data = await res.json();
+                    
+                    if (data.status === 'processing') {
+                        progressLog.innerText = data.progress;
+                        updateJobsListUI(jobId, 'processing', data.progress);
+                    } else if (data.status === 'completed') {
+                        clearInterval(pollingInterval);
+                        updateJobsListUI(jobId, 'completed', 'Completed');
+                        await fetchAndDisplayResults(jobId);
+                    } else if (data.status === 'failed') {
+                        clearInterval(pollingInterval);
+                        updateJobsListUI(jobId, 'failed', 'Failed');
+                        alert(`Job compilation failed: ${data.error || 'Unknown error'}`);
+                        showIdle();
+                    }
+                } catch (err) {
+                    clearInterval(pollingInterval);
+                    console.error("Error polling job status:", err);
+                }
+            }, 2000);
+        }
+
+        async function fetchAndDisplayResults(jobId) {
+            showProcessing("Fetching compiled results...");
+            try {
+                // Fetch JSON and Markdown outputs in parallel
+                const [resJson, resMd] = await Promise.all([
+                    fetch(`/api/jobs/${jobId}/result`),
+                    fetch(`/api/jobs/${jobId}/narration`)
+                ]);
+
+                if (!resJson.ok || !resMd.ok) {
+                    throw new Error("Failed to fetch compilation outputs");
+                }
+
+                const visualMemory = await resJson.json();
+                const narration = await resMd.json();
+
+                // 1. Render Narration Markdown (simple vanilla helper)
+                narrationBody.innerHTML = renderMarkdown(narration.markdown);
+
+                // 2. Render Timeline Scenes
+                renderTimeline(jobId, visualMemory);
+
+                // 3. Render raw JSON view
+                rawJsonBody.innerText = JSON.stringify(visualMemory, null, 2);
+
+                // Show tabs content
+                showTabs();
+            } catch (err) {
+                alert(`Failed to load compilation results: ${err.message}`);
+                showIdle();
+            }
+        }
+
+        // Job selection from sidebar history
+        async function selectJob(jobId, status) {
+            currentJobId = jobId;
+            if (pollingInterval) clearInterval(pollingInterval);
+            
+            // Highlight active job item
+            document.querySelectorAll('.job-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.jobId === jobId) item.classList.add('active');
+            });
+
+            if (status === 'processing') {
+                showProcessing("Resuming status monitor...");
+                startPolling(jobId);
+            } else if (status === 'completed') {
+                await fetchAndDisplayResults(jobId);
+            } else {
+                showIdle();
+            }
+        }
+
+        function updateJobsListUI(jobId, status, progressText) {
+            let listContainer = document.getElementById('jobsList');
+            
+            // Remove empty state placeholder
+            const placeholder = listContainer.querySelector('.empty-state');
+            if (placeholder) placeholder.remove();
+
+            let jobItem = document.querySelector(`.job-item[data-job-id="${jobId}"]`);
+            
+            if (!jobItem) {
+                // Create new job row
+                jobItem = document.createElement('div');
+                jobItem.className = 'job-item active';
+                jobItem.dataset.jobId = jobId;
+                jobItem.onclick = () => selectJob(jobId, status);
+                listContainer.insertBefore(jobItem, listContainer.firstChild);
+            } else {
+                jobItem.className = `job-item ${currentJobId === jobId ? 'active' : ''}`;
+            }
+
+            jobItem.innerHTML = `
+                <div class="job-meta">
+                    <span class="job-id">job_${jobId.substring(0, 8)}...</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);">${progressText.substring(0, 30)}</span>
+                </div>
+                <span class="job-status-badge ${status}">${status}</span>
+            `;
+        }
+
+        // Simple Markdown parser
+        function renderMarkdown(md) {
+            if (!md) return "<p>No narrative text generated.</p>";
+            let html = md
+                // GitHub style Alert box
+                .replace(/>\s*\[!NOTE\]\s*\n>\s*([^\n]+)/g, '<blockquote><strong>Note:</strong> $1</blockquote>')
+                .replace(/>\s*\[!WARNING\]\s*\n>\s*([^\n]+)/g, '<blockquote style="background: rgba(239, 68, 68, 0.05); border-left-color: var(--error); color: #f87171;"><strong>Warning:</strong> $1</blockquote>')
+                // Headers
+                .replace(/^#\s+(.+)$/gm, '<h1>$1</h1>')
+                .replace(/^##\s+(.+)$/gm, '<h2>$1</h2>')
+                .replace(/^###\s+(.+)$/gm, '<h3>$1</h3>')
+                // Bold
+                .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+                // Horizontal divider
+                .replace(/^---\s*$/gm, '<hr style="border: none; border-top: 1px solid var(--border-glass); margin: 1.5rem 0;">')
+                // Bullets
+                .replace(/^\s*-\s+(.+)$/gm, '<li>$1</li>')
+                .replace(/(<li>.+<\/li>)/s, '<ul>$1</ul>')
+                // Paragraph paragraphs
+                .replace(/^([^<#\-\n].+)$/gm, '<p>$1</p>')
+                .replace(/\n/g, '<br>');
+
+            return `<div class="markdown-body">${html}</div>`;
+        }
+
+        // Render Grounded Timeline
+        function renderTimeline(jobId, visualMemory) {
+            timelineBody.innerHTML = '';
+            
+            const scenes = visualMemory.timeline.scenes;
+            if (!scenes || scenes.length === 0) {
+                timelineBody.innerHTML = '<div class="empty-state">No scenes or shots compiled in this video timeline.</div>';
+                return;
+            }
+
+            scenes.forEach(scene => {
+                const startSec = (scene.shots[0]?.start_ms || 0) / 1000;
+                const endSec = (scene.shots[scene.shots.length - 1]?.end_ms || 0) / 1000;
+                
+                // Build shots list inside scene
+                let shotsHtml = '';
+                scene.shots.forEach(shot => {
+                    // Extract first frame path filename to fetch preview image
+                    let frameImgHtml = '';
+                    if (shot.frames && shot.frames.length > 0) {
+                        const framePath = shot.frames[0].frame_path;
+                        const filename = framePath.substring(framePath.lastIndexOf('/') + 1);
+                        frameImgHtml = `<img src="/api/jobs/${jobId}/frame/${filename}" alt="Keyframe Preview" onerror="this.style.display='none'">`;
+                    }
+                    
+                    const captionText = shot.caption?.caption_text || '(None)';
+                    
+                    // Gather OCR keywords
+                    let ocrBadges = '';
+                    if (shot.ocr && shot.ocr.length > 0) {
+                        const words = shot.ocr.map(o => o.text).filter(Boolean);
+                        const uniqueWords = [...new Set(words)];
+                        ocrBadges = uniqueWords.slice(0, 15).map(w => `<span class="badge-tag">${w}</span>`).join(' ');
+                    }
+                    
+                    // Gather ASR spoken audio
+                    let asrText = '(None)';
+                    if (shot.asr_words && shot.asr_words.length > 0) {
+                        asrText = shot.asr_words.map(a => a.word.strip ? a.word.strip() : a.word).join(' ');
+                    }
+
+                    // Gather Motion score
+                    let motionBadge = '';
+                    if (shot.motion) {
+                        const score = shot.motion.motion_score.toFixed(3);
+                        const camera = shot.motion.camera_movement || 'static';
+                        motionBadge = `<span class="badge-tag motion">Motion Score: ${score} (${camera})</span>`;
+                    }
+
+                    shotsHtml += `
+                        <div class="timeline-body">
+                            <div class="frame-preview">
+                                ${frameImgHtml}
+                                <div class="frame-fallback">
+                                    <span>🖼️</span>
+                                    <span>Keyframe preview</span>
+                                    <span style="font-size: 0.7rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">shot_${shot.shot_id}</span>
+                                </div>
+                            </div>
+                            <div class="scene-details">
+                                <div class="detail-row">
+                                    <span class="detail-label">VLM Visual Caption</span>
+                                    <span class="detail-content">${captionText}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Spoken Audio (ASR)</span>
+                                    <span class="detail-content" style="color: #60a5fa;">${asrText}</span>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Screen Text (OCR)</span>
+                                    <div class="tag-list">
+                                        ${ocrBadges || '<span class="detail-content" style="color: var(--text-muted);">(None)</span>'}
+                                    </div>
+                                </div>
+                                <div class="detail-row">
+                                    <span class="detail-label">Physical Dynamics</span>
+                                    <div class="tag-list">
+                                        ${motionBadge || '<span class="detail-content" style="color: var(--text-muted);">(None)</span>'}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                });
+
+                const card = document.createElement('div');
+                card.className = 'timeline-card';
+                card.innerHTML = `
+                    <div class="timeline-header">
+                        <span class="scene-title">🎬 Scene ${scene.scene_id}</span>
+                        <span class="scene-time">${startSec.toFixed(2)}s - ${endSec.toFixed(2)}s</span>
+                    </div>
+                    ${shotsHtml}
+                `;
+                timelineBody.appendChild(card);
+            });
+        }
+
+        // Tab Switching
+        function switchTab(tabId) {
+            // Update tab button classes
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.innerText.toLowerCase().includes(tabId.replace('_', ' '))) {
+                    btn.classList.add('active');
+                } else if (tabId === 'narration' && btn.innerText.includes('Visual')) {
+                    btn.classList.add('active');
+                } else if (tabId === 'raw_json' && btn.innerText.includes('Database')) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Update tab panels
+            tabNarration.style.display = tabId === 'narration' ? 'block' : 'none';
+            tabTimeline.style.display = tabId === 'timeline' ? 'block' : 'none';
+            tabRawJson.style.display = tabId === 'raw_json' ? 'block' : 'none';
+        }
+
+        // State changes
+        function showIdle() {
+            idleState.style.display = 'flex';
+            processingState.style.display = 'none';
+            tabNarration.style.display = 'none';
+            tabTimeline.style.display = 'none';
+            tabRawJson.style.display = 'none';
+        }
+
+        function showProcessing(logMsg) {
+            idleState.style.display = 'none';
+            processingState.style.display = 'flex';
+            progressLog.innerText = logMsg;
+            tabNarration.style.display = 'none';
+            tabTimeline.style.display = 'none';
+            tabRawJson.style.display = 'none';
+        }
+
+        function showTabs() {
+            idleState.style.display = 'none';
+            processingState.style.display = 'none';
+            switchTab('narration');
+        }
+    </script>
+</body>
+</html>

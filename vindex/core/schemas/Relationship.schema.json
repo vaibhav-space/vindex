@@ -1,0 +1,39 @@
+{
+  "description": "A temporal/spatial link between two elements (e.g. OCR text overlapping a caption).",
+  "properties": {
+    "relationship_id": {
+      "description": "Unique identifier for this relationship",
+      "title": "Relationship Id",
+      "type": "string"
+    },
+    "source_id": {
+      "description": "ID of the source element",
+      "title": "Source Id",
+      "type": "string"
+    },
+    "target_id": {
+      "description": "ID of the target element",
+      "title": "Target Id",
+      "type": "string"
+    },
+    "relationship_type": {
+      "description": "Type of relationship (e.g., temporal_overlap, ocr_caption_match)",
+      "title": "Relationship Type",
+      "type": "string"
+    },
+    "metadata": {
+      "additionalProperties": true,
+      "description": "Additional context metadata",
+      "title": "Metadata",
+      "type": "object"
+    }
+  },
+  "required": [
+    "relationship_id",
+    "source_id",
+    "target_id",
+    "relationship_type"
+  ],
+  "title": "Relationship",
+  "type": "object"
+}

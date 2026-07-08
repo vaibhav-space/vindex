@@ -1,0 +1,52 @@
+{
+  "$defs": {
+    "EventType": {
+      "enum": [
+        "SpeakerChange",
+        "SlideTransition",
+        "SceneBoundary",
+        "Custom"
+      ],
+      "title": "EventType",
+      "type": "string"
+    }
+  },
+  "description": "A specific occurrence derived from observations.",
+  "properties": {
+    "event_id": {
+      "description": "Unique identifier for this event",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "event_type": {
+      "$ref": "#/$defs/EventType",
+      "description": "The type of event"
+    },
+    "start_ms": {
+      "description": "Start time of the event in milliseconds",
+      "title": "Start Ms",
+      "type": "integer"
+    },
+    "end_ms": {
+      "description": "End time of the event in milliseconds",
+      "title": "End Ms",
+      "type": "integer"
+    },
+    "source_shot_ids": {
+      "description": "List of shot IDs associated with this event",
+      "items": {
+        "type": "string"
+      },
+      "title": "Source Shot Ids",
+      "type": "array"
+    }
+  },
+  "required": [
+    "event_id",
+    "event_type",
+    "start_ms",
+    "end_ms"
+  ],
+  "title": "Event",
+  "type": "object"
+}

@@ -1,0 +1,72 @@
+# Python Caches & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv/
+venv/
+ENV/
+env/
+active_venv/
+
+# Caches and IDEs
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+.tox/
+.noseids
+.project
+.pydevproject
+.idea/
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.swp
+.DS_Store
+
+# Vindex Local Models, Local Artifacts and Data
+.vindex/
+.paddlex/
+dist/
+temp_jobs/
+*.log
+
+# Large Media and Test Inputs
+test video/
+*.mp4
+*.avi
+*.mov
+*.mkv
+*.webm
+
+# Scratch & Temporary Developer Docs
+scratch/
+REPO_MAP.md
+ASSUMPTIONS.md
+SCOPE.md
+temp_jobs/
+

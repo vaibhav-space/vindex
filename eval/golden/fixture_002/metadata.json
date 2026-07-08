@@ -1,0 +1,6 @@
+{
+  "duration_ms": 10000,
+  "fps": 24.0,
+  "resolution": "640x360",
+  "description": "Synthetic 10-second video with color bars and 1000Hz tone."
+}

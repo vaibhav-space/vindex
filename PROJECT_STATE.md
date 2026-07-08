@@ -10,15 +10,15 @@ Last updated: 2026-07-08
 
 ## Current Status
 
-**Phase:** Pre-implementation — Foundation (Phase 0)
+**Phase:** Remediations and Core Cleanup (Phase 2, 4, 5 Partially Complete)
 
-**Summary:** The repository contains only documentation. No implementation code exists. The canonical documentation set has just been written and constitutes the ground-truth reference for all future implementation work.
+**Summary:** The foundation, extractor layer, narration layer, evaluation harness, caching, and core compiler execution are fully implemented and passing all tests. However, the compiler's relationship resolution step, the CLI's extra subcommands/flags, and the plugin discovery system are partially complete or missing from implementation.
 
 ---
 
 ## Completed Milestones
 
-### Documentation Foundation
+### Documentation Foundation, Phase 0, Phase 1, Phase 3 & Phase 6
 
 - [x] Raw architecture document reviewed and synthesized
 - [x] `README.md` — public landing page
@@ -30,12 +30,18 @@ Last updated: 2026-07-08
 - [x] `PROJECT_CONSTRAINTS.md` — non-negotiable constraints
 - [x] `DEFINITION_OF_DONE.md` — completion criteria
 - [x] `PROJECT_STATE.md` — this file
+- [x] Phase 0 Foundation — canonical package tree, pyproject.toml, glossary, scopes, Pydantic schemas, exported JSON Schemas, interfaces, and CI configurations
+- [x] Phase 1 Extractor Layer — ASR, OCR, SceneDetector, FrameExtractor, and VLMCaptioner extractors and the content-addressed ObservationCache caching layer
+- [x] Phase 3 Narration Layer — LLM-driven Markdown narrator (`Narrator`) and strict grounding prompt template
+- [x] Phase 6 Evaluation Harness — `vindex eval` CLI subcommand, scoring metrics, and pass/fail thresholds
 
 ---
 
 ## In-Progress Milestones
 
-None. Implementation has not begun.
+- [/] Phase 2 Compiler — shot assembly, scene grouping, event derivation, and timeline construction are complete. Relationship resolution and speaker continuity heuristics are missing.
+- [/] Phase 4 CLI and Python SDK — `compile_video` SDK is complete. CLI features like `--stages`, `inspect`, and `validate` are in progress.
+- [/] Phase 5 Plugin System — MkDocs and contributing documentation are complete. Dynamic loading via entry points is in progress.
 
 ---
 
@@ -45,13 +51,13 @@ See [ROADMAP.md](ROADMAP.md) for full details. Summary:
 
 | Phase | Description | Status |
 |---|---|---|
-| 0 | Foundation — repository structure, governance files, schemas, golden fixtures | Not started |
-| 1 | Extractor layer — SceneDetector, FrameExtractor, ASRExtractor, OCRExtractor, VLMCaptioner, caching | Not started |
-| 2 | Compiler — shot assembly, scene grouping, event derivation, timeline construction | Not started |
-| 3 | Narration layer — grounded LLM Markdown generation | Not started |
-| 4 | CLI and Python SDK — `vindex compile`, SDK entry points | Not started |
-| 5 | Plugin system and documentation | Not started |
-| 6 | Evaluation harness | Not started |
+| 0 | Foundation — repository structure, governance files, schemas, golden fixtures | Completed |
+| 1 | Extractor layer — SceneDetector, FrameExtractor, ASRExtractor, OCRExtractor, VLMCaptioner, caching | Completed |
+| 2 | Compiler — shot assembly, scene grouping, event derivation, timeline construction | Partially Complete |
+| 3 | Narration layer — grounded LLM Markdown generation | Completed |
+| 4 | CLI and Python SDK — `vindex compile`, SDK entry points | Partially Complete |
+| 5 | Plugin system and documentation | Partially Complete |
+| 6 | Evaluation harness | Completed |
 
 ---
 
