@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="vindex: The open-source video knowledge compiler. Turn videos into structured JSON and Markdown for LLMs and AI agents.">
+    <title>vindex — The Video Knowledge Compiler</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Background Canvas for Particles/Gradients -->
+    <div class="bg-gradient"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="glass-nav">
+        <div class="logo">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect>
+                <line x1="7" y1="2" x2="7" y2="22"></line>
+                <line x1="17" y1="2" x2="17" y2="22"></line>
+                <line x1="2" y1="12" x2="22" y2="12"></line>
+                <line x1="2" y1="7" x2="7" y2="7"></line>
+                <line x1="2" y1="17" x2="7" y2="17"></line>
+                <line x1="17" y1="17" x2="22" y2="17"></line>
+                <line x1="17" y1="7" x2="22" y2="7"></line>
+            </svg>
+            <span>vindex</span>
+        </div>
+        <div class="nav-links">
+            <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="github-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                Star on GitHub
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="badge fade-up">v0.1.0 Pre-release</div>
+        <h1 class="hero-title fade-up">The open-source video <span class="text-gradient">knowledge compiler</span>.</h1>
+        <p class="hero-subtitle fade-up delay-1">Compile any video into deterministic, structured JSON and Markdown — giving your AI agents instant video understanding without burning tokens or wasting context window on heavy frame analysis.</p>
+        
+        <div class="cta-group fade-up delay-2">
+            <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn">View Source Code</a>
+            <button class="secondary-btn" id="copy-install">
+                <code>git clone vaibhav-space/vindex</code>
+                <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+            </button>
+        </div>
+        
+        <!-- Terminal Window Mockup -->
+        <div class="terminal-container fade-up delay-3">
+            <div class="terminal-header">
+                <div class="dots">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <div class="terminal-title">compile.sh</div>
+            </div>
+            <div class="terminal-body">
+                <div class="code-line"><span class="prompt">$</span> vindex compile lecture.mp4</div>
+                <div class="code-line output delay-load">INFO: Extracting frames via PyAV...</div>
+                <div class="code-line output delay-load">INFO: Transcribing audio (faster-whisper)...</div>
+                <div class="code-line output delay-load">INFO: Detecting scenes & extracting OCR...</div>
+                <div class="code-line output delay-load">INFO: Generating VLM Captions (Qwen2-VL)...</div>
+                <div class="code-line success delay-load">Success! Wrote artifacts:</div>
+                <div class="code-line file delay-load">├── visual_memory.json</div>
+                <div class="code-line file delay-load">├── visual_memory.md</div>
+                <div class="code-line file delay-load">├── asr.json</div>
+                <div class="code-line file delay-load">└── ocr.json</div>
+                <div class="code-line cursor-line"><span class="prompt">$</span><span class="cursor">_</span></div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="features">
+        <h2 class="section-title">Built for AI Agents. <br/>Designed for Engineers.</h2>
+        
+        <div class="feature-grid">
+            <!-- Card 1 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <h3>Local-First by Default</h3>
+                <p>No network calls. No API keys. No data leaves your machine. Whisper, PaddleOCR, and Qwen run entirely locally.</p>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </div>
+                <h3>Deterministic Output</h3>
+                <p>Treat video understanding as a compilation step. The exact same video and config always produces byte-identical facts.</p>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <h3>REST API for Agents</h3>
+                <p>Built-in FastAPI server. Give your AI agents the ability to submit videos and poll for JSON results via standard HTTP calls.</p>
+            </div>
+
+            <!-- Card 4 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
+                </div>
+                <h3>CLI & Python SDK</h3>
+                <p>Use the Typer-based CLI for quick extraction in bash scripts, or import the typed Python SDK into your custom RAG pipelines.</p>
+            </div>
+            
+            <!-- Card 5 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                </div>
+                <h3>Plugin Architecture</h3>
+                <p>Every extractor sits behind a shared interface. Swap Whisper for llama.cpp without forking or breaking the entire pipeline.</p>
+            </div>
+            
+            <!-- Card 6 -->
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <h3>Versioned Schemas</h3>
+                <p>JSON artifacts carry a strict schema version validated by Pydantic. Feed it directly into LLMs without fear of silent drift.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Code Example Section -->
+    <section class="sdk-demo">
+        <div class="sdk-content">
+            <h2 class="section-title text-left">It's just Python.</h2>
+            <p class="section-desc">Invoke the compiler from your code, get fully typed Pydantic models back. No complex async graph orchestration required.</p>
+            
+            <ul class="benefit-list">
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Word-level ASR timestamps</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Bounding-box OCR</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Scene-aware clustering</li>
+                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> LLM-ready Markdown generation</li>
+            </ul>
+        </div>
+        <div class="code-window glass-card">
+            <div class="code-header">main.py</div>
+            <pre><code><span class="keyword">from</span> vindex <span class="keyword">import</span> compile_video
+
+<span class="comment"># Compiles video and returns typed models</span>
+index = compile_video(<span class="string">"lecture.mp4"</span>)
+
+<span class="comment"># Iterate through semantically grouped scenes</span>
+<span class="keyword">for</span> scene <span class="keyword">in</span> index.timeline.scenes:
+    <span class="built_in">print</span>(<span class="string">f"Scene: {scene.id}"</span>)
+    <span class="built_in">print</span>(<span class="string">f"Caption: {scene.caption}"</span>)
+    
+    <span class="comment"># Access all OCR text within this scene</span>
+    <span class="keyword">for</span> text <span class="keyword">in</span> scene.ocr_events:
+        <span class="built_in">print</span>(<span class="string">f"Found text: {text.text}"</span>)
+</code></pre>
+        </div>
+    </section>
+
+    <!-- Footer CTA -->
+    <footer class="footer-cta">
+        <h2>Ready to give your LLM eyes?</h2>
+        <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn glow-btn">Star the Repository</a>
+        <p class="footer-note">MIT Licensed. Built by Vaibhav Dubey & the open-source community.</p>
+    </footer>
+
+    <!-- JS -->
+    <script src="script.js"></script>
+</body>
+</html>
