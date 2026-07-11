@@ -30,7 +30,9 @@ class ASRExtractor(Extractor):
 
             words_list = data.get("words", [])
             for word_data in words_list:
-                word = str(word_data["word"])
+                word = str(word_data.get("word", word_data.get("text", "")))
+                if word_data.get("type") == "spacing" or not word.strip():
+                    continue
                 # Start and end timestamps are in seconds in Whisper JSON, convert to ms
                 start_ms = int(float(word_data["start"]) * 1000)
                 end_ms = int(float(word_data["end"]) * 1000)

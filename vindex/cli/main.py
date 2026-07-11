@@ -72,6 +72,8 @@ def compile(
         typer.echo(f"Scenes compiled: {len(visual_memory.timeline.scenes)}")
         typer.echo(f"Events derived: {len(visual_memory.timeline.events)}")
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         typer.secho(f"Error during compilation: {e}", fg=typer.colors.RED, err=True)
         raise typer.Exit(code=1) from e
 
