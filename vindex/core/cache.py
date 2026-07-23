@@ -80,8 +80,12 @@ class ObservationCache:
             return None
 
         # cached_data is a list of tuples (class_name, json_data)
+        assert isinstance(cached_data, list)
         observations = []
-        for class_name, json_data in cached_data:
+        for item in cached_data:
+            assert isinstance(item, (tuple, list))
+            class_name, json_data = item
+            assert isinstance(json_data, (str, bytes, bytearray))
             if class_name in OBSERVATION_TYPES:
                 model_cls = OBSERVATION_TYPES[class_name]
                 observations.append(model_cls.model_validate_json(json_data))

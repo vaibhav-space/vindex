@@ -1,3 +1,5 @@
+# pyright: reportIncompatibleVariableOverride=false
+# pyright: reportGeneralTypeIssues=false
 from abc import ABC
 from typing import Annotated, Any, Literal, Optional, Union
 

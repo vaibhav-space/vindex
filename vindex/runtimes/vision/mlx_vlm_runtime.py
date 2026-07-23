@@ -87,11 +87,12 @@ class MLXVLMRuntime(SceneUnderstandingRuntime, LLMRuntime):
         max_tokens = config.get("max_tokens", 128)
         temp = config.get("temperature", 0.0)
 
+        assert self.processor is not None
         output = generate(
             self.model,
             self.processor,
             prompt=formatted_prompt,
-            image=images,
+            image=images,  # type: ignore
             max_tokens=max_tokens,
             temperature=temp,
             repetition_penalty=1.2,
@@ -135,6 +136,7 @@ class MLXVLMRuntime(SceneUnderstandingRuntime, LLMRuntime):
                 pass
 
 
+        assert self.processor is not None
         output = generate(
             self.model,
             self.processor,

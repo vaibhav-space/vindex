@@ -81,3 +81,11 @@ module = [
     "typer.*",
 ]
 ignore_missing_imports = true
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+pythonVersion = "3.11"
+exclude = ["tests"]
+
+

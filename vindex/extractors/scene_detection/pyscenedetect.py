@@ -30,6 +30,7 @@ class PySceneDetectExtractor(Extractor):
         if not scene_list:
             # Entire video is a single shot
             start_ms = 0
+            assert video.duration is not None
             end_ms = int(video.duration.seconds * 1000)
             yield ShotObservation(
                 schema_version="1.0",

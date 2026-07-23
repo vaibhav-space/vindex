@@ -49,7 +49,7 @@ class OpenCVFlowRuntime(MotionAnalysisRuntime):
                 # Calculate Farneback dense optical flow
                 flow = cv2.calcOpticalFlowFarneback(
                     prev_gray, gray, None, 0.5, 3, 15, 3, 5, 1.2, 0
-                )  # type: ignore[call-overload]
+                )  # type: ignore
 
                 
                 # Flow in x and y
