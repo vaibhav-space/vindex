@@ -507,37 +507,75 @@ extractors = get_extractor_plugins()  <span class="comment"># Zero modifications
 
         <div class="guarantee-grid">
             <div class="guarantee-card">
-                <div class="g-icon">🔒</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
                 <h3>100% Local-First & Private</h3>
                 <p>No network calls. No API keys. No video leaving your device. Whisper, PaddleOCR, and Qwen run entirely on local silicon.</p>
             </div>
 
             <div class="guarantee-card">
-                <div class="g-icon">⚡</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="4" y1="9" x2="20" y2="9"/>
+                        <line x1="4" y1="15" x2="20" y2="15"/>
+                        <line x1="10" y1="3" x2="8" y2="21"/>
+                        <line x1="16" y1="3" x2="14" y2="21"/>
+                    </svg>
+                </div>
                 <h3>Byte-for-Byte Determinism</h3>
                 <p>Same video + same config = byte-identical JSON facts, every single time. Caches are content-addressed by hash.</p>
             </div>
 
             <div class="guarantee-card">
-                <div class="g-icon">📐</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="16 18 22 12 16 6"/>
+                        <polyline points="8 6 2 12 8 18"/>
+                    </svg>
+                </div>
                 <h3>Strict Schema Versioning</h3>
                 <p>Every artifact is validated against Pydantic v2 schemas and carries an explicit <code>schema_version</code>.</p>
             </div>
 
             <div class="guarantee-card">
-                <div class="g-icon">✍️</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                    </svg>
+                </div>
                 <h3>Grounded Narration</h3>
                 <p>The LLM narration layer phrases facts already compiled in JSON. It is strictly forbidden from hallucinating.</p>
             </div>
 
             <div class="guarantee-card">
-                <div class="g-icon">🔌</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+                        <polyline points="2 17 12 22 22 17"/>
+                        <polyline points="2 12 12 17 22 12"/>
+                    </svg>
+                </div>
                 <h3>Decoupled Plugin Core</h3>
                 <p>Every extractor sits behind an abstract interface. Swap or extend components without forking the codebase.</p>
             </div>
 
             <div class="guarantee-card">
-                <div class="g-icon">📊</div>
+                <div class="g-icon">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"/>
+                        <circle cx="12" cy="12" r="4"/>
+                        <line x1="4.93" y1="4.93" x2="9.17" y2="9.17"/>
+                        <line x1="14.83" y1="14.83" x2="19.07" y2="19.07"/>
+                        <line x1="14.83" y1="9.17" x2="19.07" y2="4.93"/>
+                        <line x1="4.93" y1="19.07" x2="9.17" y2="14.83"/>
+                    </svg>
+                </div>
                 <h3>Golden Fixture Eval Harness</h3>
                 <p>Built-in evaluation harness (<code>vindex eval</code>) scores compiled outputs against ground-truth fixtures.</p>
             </div>
