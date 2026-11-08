@@ -25,23 +25,51 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Copy Install Command
     const copyBtn = document.getElementById('copy-install');
-    copyBtn.addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText('git clone https://github.com/vaibhav-space/vindex.git');
-            const originalHTML = copyBtn.innerHTML;
-            copyBtn.innerHTML = '<code>Copied!</code> <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-            copyBtn.style.borderColor = '#4ade80';
-            
-            setTimeout(() => {
-                copyBtn.innerHTML = originalHTML;
-                copyBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-            }, 2000);
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-        }
+    if (copyBtn) {
+        copyBtn.addEventListener('click', async () => {
+            try {
+                await navigator.clipboard.writeText('git clone https://github.com/vaibhav-space/vindex.git');
+                const originalHTML = copyBtn.innerHTML;
+                copyBtn.innerHTML = '<code>Copied!</code> <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                copyBtn.style.borderColor = '#4ade80';
+                
+                setTimeout(() => {
+                    copyBtn.innerHTML = originalHTML;
+                    copyBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                }, 2000);
+            } catch (err) {
+                console.error('Failed to copy text: ', err);
+            }
+        });
+    }
+
+    // 4. Tab Switching: Artifact Explorer
+    const artifactTabs = document.querySelectorAll('.artifact-tab');
+    const artifactPanes = document.querySelectorAll('.artifact-content');
+    artifactTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            artifactTabs.forEach(t => t.classList.remove('active'));
+            artifactPanes.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const target = document.getElementById(tab.dataset.target);
+            if (target) target.classList.add('active');
+        });
     });
 
-    // 4. Subtle Particle Canvas Background
+    // 5. Tab Switching: Developer Interfaces
+    const ifTabs = document.querySelectorAll('.interface-tab');
+    const ifPanes = document.querySelectorAll('.interface-pane');
+    ifTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            ifTabs.forEach(t => t.classList.remove('active'));
+            ifPanes.forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            const target = document.getElementById(tab.dataset.target);
+            if (target) target.classList.add('active');
+        });
+    });
+
+    // 6. Subtle Particle Canvas Background
     const canvas = document.getElementById('particle-canvas');
     const ctx = canvas.getContext('2d');
     

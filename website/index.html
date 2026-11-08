@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="vindex: The open-source video knowledge compiler. Turn videos into structured JSON and Markdown for LLMs and AI agents.">
-    <title>vindex — The Video Knowledge Compiler</title>
+    <meta name="description" content="vindex: The open-source video knowledge compiler. Compile video once into deterministic, versioned JSON and Markdown for AI agents and RAG pipelines.">
+    <title>vindex — The Open-Source Video Knowledge Compiler</title>
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&family=Outfit:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&family=Outfit:wght@500;600;700;900&display=swap" rel="stylesheet">
     
     <!-- CSS -->
     <link rel="stylesheet" href="style.css">
@@ -36,6 +36,12 @@
             </svg>
             <span>vindex</span>
         </div>
+        <div class="nav-menu">
+            <a href="#pipeline" class="nav-item">Pipeline</a>
+            <a href="#artifacts" class="nav-item">Artifacts</a>
+            <a href="#interfaces" class="nav-item">Interfaces</a>
+            <a href="https://github.com/vaibhav-space/vindex#readme" target="_blank" class="nav-item">Docs</a>
+        </div>
         <div class="nav-links">
             <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="github-btn">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -48,14 +54,14 @@
 
     <!-- Hero Section -->
     <header class="hero">
-        <div class="badge fade-up">v0.1.0 Pre-release</div>
-        <h1 class="hero-title fade-up">The open-source video <span class="text-gradient">knowledge compiler</span>.</h1>
-        <p class="hero-subtitle fade-up delay-1">Compile any video into deterministic, structured JSON and Markdown — giving your AI agents instant video understanding without burning tokens or wasting context window on heavy frame analysis.</p>
+        <div class="badge fade-up">v0.2.0 • Local-First Video Knowledge Compiler</div>
+        <h1 class="hero-title fade-up">Compile video into facts. <span class="text-gradient">Not opinions.</span></h1>
+        <p class="hero-subtitle fade-up delay-1">Compile any video file once into deterministic, schema-versioned JSON & Markdown knowledge artifacts — so your AI agents, RAG pipelines, and search indexes never have to re-watch raw video.</p>
         
         <div class="cta-group fade-up delay-2">
-            <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn">View Source Code</a>
+            <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn">View on GitHub</a>
             <button class="secondary-btn" id="copy-install">
-                <code>git clone vaibhav-space/vindex</code>
+                <code>git clone https://github.com/vaibhav-space/vindex.git</code>
                 <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
             </button>
         </div>
@@ -68,122 +74,379 @@
                     <span class="dot yellow"></span>
                     <span class="dot green"></span>
                 </div>
-                <div class="terminal-title">compile.sh</div>
+                <div class="terminal-title">terminal — vindex compile</div>
             </div>
             <div class="terminal-body">
-                <div class="code-line"><span class="prompt">$</span> vindex compile lecture.mp4</div>
-                <div class="code-line output delay-load">INFO: Extracting frames via PyAV...</div>
-                <div class="code-line output delay-load">INFO: Transcribing audio (faster-whisper)...</div>
-                <div class="code-line output delay-load">INFO: Detecting scenes & extracting OCR...</div>
-                <div class="code-line output delay-load">INFO: Generating VLM Captions (Qwen2-VL)...</div>
-                <div class="code-line success delay-load">Success! Wrote artifacts:</div>
-                <div class="code-line file delay-load">├── visual_memory.json</div>
-                <div class="code-line file delay-load">├── visual_memory.md</div>
-                <div class="code-line file delay-load">├── asr.json</div>
-                <div class="code-line file delay-load">└── ocr.json</div>
+                <div class="code-line"><span class="prompt">$</span> vindex compile lecture.mp4 --output-dir ./dist</div>
+                <div class="code-line output delay-load">INFO: Extracting scene boundaries via PySceneDetect...</div>
+                <div class="code-line output delay-load">INFO: Decoding keyframes via PyAV (libavcodec)...</div>
+                <div class="code-line output delay-load">INFO: Transcribing word timestamps via faster-whisper...</div>
+                <div class="code-line output delay-load">INFO: Extracting 109-language burned-in text via PaddleOCR...</div>
+                <div class="code-line output delay-load">INFO: Generating spatial visual captions via Qwen2-VL (MLX)...</div>
+                <div class="code-line output delay-load">INFO: Compiler: Merging observations & resolving relationships...</div>
+                <div class="code-line success delay-load">✔ Compilation successful! Generated 6 deterministic artifacts:</div>
+                <div class="code-line file delay-load">├── dist/visual_memory.json   [Primary compiled index: scenes, shots, events]</div>
+                <div class="code-line file delay-load">├── dist/visual_memory.md     [Human-readable grounded narration]</div>
+                <div class="code-line file delay-load">├── dist/timeline.json        [Hierarchical temporal spine]</div>
+                <div class="code-line file delay-load">├── dist/scene_index.json     [Semantic clusters & captions]</div>
+                <div class="code-line file delay-load">├── dist/asr.json             [Word-level transcript & confidence]</div>
+                <div class="code-line file delay-load">└── dist/ocr.json             [Spatially positioned on-screen text]</div>
                 <div class="code-line cursor-line"><span class="prompt">$</span><span class="cursor">_</span></div>
             </div>
         </div>
     </header>
 
-    <!-- Features Section -->
-    <section class="features">
-        <h2 class="section-title">Built for AI Agents. <br/>Designed for Engineers.</h2>
+    <!-- Problem & Why Compilation Matters -->
+    <section class="problem-section" id="problem">
+        <h2 class="section-title">The Video Understanding Bottleneck</h2>
+        <p class="section-desc text-center">Every AI system working with video today re-derives understanding from scratch — non-reproducibly, expensively, every single time.</p>
         
-        <div class="feature-grid">
-            <!-- Card 1 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
-                </div>
-                <h3>Local-First by Default</h3>
-                <p>No network calls. No API keys. No data leaves your machine. Whisper, PaddleOCR, and Qwen run entirely locally.</p>
+        <div class="comparison-grid">
+            <div class="comparison-card bad glass-card">
+                <div class="card-tag">Today's Approach</div>
+                <h3>Ad-Hoc Video Prompting</h3>
+                <ul>
+                    <li><strong>Lossy & Ephemeral:</strong> LLMs produce one-off prose that gets discarded. Ask a new question: re-stream the entire video.</li>
+                    <li><strong>Context Hog:</strong> Feeding raw frames burns hundreds of thousands of tokens without spatial precision.</li>
+                    <li><strong>Cloud Vendor Lock-In:</strong> Proprietary video APIs hold derived knowledge hostage in paid cloud accounts.</li>
+                    <li><strong>Non-Deterministic:</strong> Re-running on the exact same video produces different facts and hallucinated timestamps.</li>
+                </ul>
             </div>
-            
-            <!-- Card 2 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
-                </div>
-                <h3>Deterministic Output</h3>
-                <p>Treat video understanding as a compilation step. The exact same video and config always produces byte-identical facts.</p>
-            </div>
-            
-            <!-- Card 3 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
-                </div>
-                <h3>REST API for Agents</h3>
-                <p>Built-in FastAPI server. Give your AI agents the ability to submit videos and poll for JSON results via standard HTTP calls.</p>
-            </div>
-
-            <!-- Card 4 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
-                </div>
-                <h3>CLI & Python SDK</h3>
-                <p>Use the Typer-based CLI for quick extraction in bash scripts, or import the typed Python SDK into your custom RAG pipelines.</p>
-            </div>
-            
-            <!-- Card 5 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
-                </div>
-                <h3>Plugin Architecture</h3>
-                <p>Every extractor sits behind a shared interface. Swap Whisper for llama.cpp without forking or breaking the entire pipeline.</p>
-            </div>
-            
-            <!-- Card 6 -->
-            <div class="feature-card glass-card hover-lift">
-                <div class="feature-icon">
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-                </div>
-                <h3>Versioned Schemas</h3>
-                <p>JSON artifacts carry a strict schema version validated by Pydantic. Feed it directly into LLMs without fear of silent drift.</p>
+            <div class="comparison-card good glass-card">
+                <div class="card-tag highlight">The vindex Approach</div>
+                <h3>Deterministic Video Compilation</h3>
+                <ul>
+                    <li><strong>Compile Once, Query Forever:</strong> Compile video once into immutable JSON. Query, diff, and index with standard tools.</li>
+                    <li><strong>Zero Token Waste:</strong> Feed compact, structured Markdown or JSON directly to LLMs with microsecond retrieval.</li>
+                    <li><strong>100% Local-First:</strong> Runs entirely on your hardware with open weights. No cloud account, no API keys, zero data leaks.</li>
+                    <li><strong>Byte-Reproducible:</strong> Strict Pydantic schemas guarantee identical output for identical inputs and configs.</li>
+                </ul>
             </div>
         </div>
     </section>
 
-    <!-- Code Example Section -->
-    <section class="sdk-demo">
-        <div class="sdk-content">
-            <h2 class="section-title text-left">It's just Python.</h2>
-            <p class="section-desc">Invoke the compiler from your code, get fully typed Pydantic models back. No complex async graph orchestration required.</p>
-            
-            <ul class="benefit-list">
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Word-level ASR timestamps</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Bounding-box OCR</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> Scene-aware clustering</li>
-                <li><svg viewBox="0 0 24 24" fill="none" stroke="#a78bfa" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg> LLM-ready Markdown generation</li>
-            </ul>
+    <!-- Pipeline Architecture -->
+    <section class="pipeline-section" id="pipeline">
+        <h2 class="section-title">A Deterministic 4-Stage Architecture</h2>
+        <p class="section-desc text-center">Modular extractors emit typed Observation streams. The compiler assembles them into structured facts.</p>
+
+        <div class="pipeline-flow">
+            <div class="pipeline-step glass-card">
+                <div class="step-num">01</div>
+                <h4>Video Ingestion</h4>
+                <p>PySceneDetect identifies cut boundaries; PyAV decodes deterministic keyframes from libavcodec.</p>
+                <div class="step-tech">PySceneDetect • PyAV</div>
+            </div>
+            <div class="pipeline-arrow">➔</div>
+            <div class="pipeline-step glass-card">
+                <div class="step-num">02</div>
+                <h4>Multi-Modal Extraction</h4>
+                <p>Parallel extractors stream timestamped ASR words, OCR bounding boxes, and visual captions.</p>
+                <div class="step-tech">faster-whisper • PaddleOCR • Qwen2-VL</div>
+            </div>
+            <div class="pipeline-arrow">➔</div>
+            <div class="pipeline-step glass-card">
+                <div class="step-num">03</div>
+                <h4>Fact Compilation</h4>
+                <p>Aligns observations into Shots and Scenes. Resolves spatial/temporal overlaps and derives named events.</p>
+                <div class="step-tech">Deterministic Assembler</div>
+            </div>
+            <div class="pipeline-arrow">➔</div>
+            <div class="pipeline-step glass-card">
+                <div class="step-num">04</div>
+                <h4>Verified Artifacts</h4>
+                <p>Outputs validated Pydantic v2 JSON and strictly grounded Markdown narration for AI consumers.</p>
+                <div class="step-tech">JSON Schema • Grounded MD</div>
+            </div>
         </div>
-        <div class="code-window glass-card">
-            <div class="code-header">main.py</div>
-            <pre><code><span class="keyword">from</span> vindex <span class="keyword">import</span> compile_video
+    </section>
 
-<span class="comment"># Compiles video and returns typed models</span>
-index = compile_video(<span class="string">"lecture.mp4"</span>)
+    <!-- Interactive Artifact Preview (Golden Fixture Explorer) -->
+    <section class="artifacts-section" id="artifacts">
+        <div class="artifacts-header">
+            <h2 class="section-title text-left">Compiled Output Artifacts</h2>
+            <p class="section-desc text-left">Inspect real, schema-validated artifacts generated by vindex. Click a tab to inspect the actual structured output.</p>
+        </div>
 
-<span class="comment"># Iterate through semantically grouped scenes</span>
-<span class="keyword">for</span> scene <span class="keyword">in</span> index.timeline.scenes:
-    <span class="built_in">print</span>(<span class="string">f"Scene: {scene.id}"</span>)
-    <span class="built_in">print</span>(<span class="string">f"Caption: {scene.caption}"</span>)
-    
-    <span class="comment"># Access all OCR text within this scene</span>
-    <span class="keyword">for</span> text <span class="keyword">in</span> scene.ocr_events:
-        <span class="built_in">print</span>(<span class="string">f"Found text: {text.text}"</span>)
-</code></pre>
+        <div class="artifact-tabs">
+            <button class="artifact-tab active" data-target="tab-json">visual_memory.json</button>
+            <button class="artifact-tab" data-target="tab-md">visual_memory.md</button>
+            <button class="artifact-tab" data-target="tab-timeline">timeline.json</button>
+            <button class="artifact-tab" data-target="tab-asr">asr.json</button>
+            <button class="artifact-tab" data-target="tab-ocr">ocr.json</button>
+        </div>
+
+        <div class="artifact-viewer glass-card">
+            <!-- visual_memory.json -->
+            <pre id="tab-json" class="artifact-content active"><code>{
+  "schema_version": "2.0",
+  "video_hash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "generated_at": "2026-11-08T00:00:00Z",
+  "timeline": {
+    "schema_version": "2.0",
+    "total_duration_ms": 5000,
+    "scenes": [
+      {
+        "scene_id": "sc001",
+        "start_ms": 0,
+        "end_ms": 5000,
+        "dominant_caption": "A standard SMPTE color bar display with a solid test pattern.",
+        "shots": [
+          {
+            "shot_id": "sh001",
+            "start_ms": 0,
+            "end_ms": 5000,
+            "frames": [
+              {
+                "timestamp_ms": 2500,
+                "source": "frame_extraction.pyav.v1",
+                "frame_path": "frames/sh001_2500.png"
+              }
+            ],
+            "asr_words": [
+              { "word": "audio", "start_ms": 500, "end_ms": 1100, "confidence": 0.99 },
+              { "word": "test", "start_ms": 1200, "end_ms": 1800, "confidence": 0.98 }
+            ],
+            "ocr": [
+              { "text": "SMPTE", "timestamp_ms": 1000, "bbox": [120, 45, 280, 85], "confidence": 0.96 }
+            ],
+            "caption": {
+              "caption_text": "A standard SMPTE color bar display with a solid test pattern.",
+              "model_id": "qwen2-vl-2b-instruct"
+            }
+          }
+        ]
+      }
+    ],
+    "events": [
+      {
+        "event_id": "ev001",
+        "event_type": "SceneBoundary",
+        "start_ms": 0,
+        "end_ms": 0,
+        "source_shot_ids": ["sh001"]
+      }
+    ]
+  }
+}</code></pre>
+
+            <!-- visual_memory.md -->
+            <pre id="tab-md" class="artifact-content"><code># Visual Memory Index
+
+**Generated at:** 2026-11-08T00:00:00Z
+**Video Hash:** e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855
+**Narration Model:** qwen2-vl-2b-instruct (version: 1.0)
+
+> [!NOTE]
+> The narration text below is non-deterministic LLM output strictly grounded in the compiled video index.
+
+---
+
+## Chronological Scenes
+
+### Scene 1: sc001 (00:00.000 – 00:05.000)
+- **Visual Description:** A standard SMPTE color bar display with a solid test pattern.
+- **On-Screen Text (OCR):** "SMPTE" detected at 00:01.000 (bounding box: [120, 45, 280, 85]).
+- **Spoken Audio (ASR):** "audio test" (00:00.500 – 00:01.800).
+- **Key Events:** Scene boundary initialized at timestamp 0 ms across shot sh001.</code></pre>
+
+            <!-- timeline.json -->
+            <pre id="tab-timeline" class="artifact-content"><code>{
+  "schema_version": "2.0",
+  "total_duration_ms": 5000,
+  "scenes": [
+    {
+      "scene_id": "sc001",
+      "start_ms": 0,
+      "end_ms": 5000,
+      "shot_count": 1,
+      "dominant_caption": "A standard SMPTE color bar display with a solid test pattern."
+    }
+  ],
+  "events": [
+    {
+      "event_id": "ev001",
+      "event_type": "SceneBoundary",
+      "start_ms": 0,
+      "end_ms": 0,
+      "source_shot_ids": ["sh001"]
+    }
+  ]
+}</code></pre>
+
+            <!-- asr.json -->
+            <pre id="tab-asr" class="artifact-content"><code>{
+  "schema_version": "1.0",
+  "extractor": "asr.faster_whisper",
+  "language": "en",
+  "words": [
+    { "word": "audio", "start_ms": 500, "end_ms": 1100, "confidence": 0.991 },
+    { "word": "test", "start_ms": 1200, "end_ms": 1800, "confidence": 0.984 }
+  ]
+}</code></pre>
+
+            <!-- ocr.json -->
+            <pre id="tab-ocr" class="artifact-content"><code>{
+  "schema_version": "1.0",
+  "extractor": "ocr.paddleocr",
+  "detections": [
+    {
+      "text": "SMPTE",
+      "timestamp_ms": 1000,
+      "bbox": [120, 45, 280, 85],
+      "confidence": 0.962,
+      "frame_ref": "frames/sh001_1000.png"
+    }
+  ]
+}</code></pre>
+        </div>
+    </section>
+
+    <!-- Developer Interfaces Section -->
+    <section class="interfaces-section" id="interfaces">
+        <h2 class="section-title">Developer Interfaces</h2>
+        <p class="section-desc text-center">Use vindex however fits your architecture: Python SDK, Typer CLI, REST API, or custom plugins.</p>
+
+        <div class="interface-tabs">
+            <button class="interface-tab active" data-target="if-sdk">Python SDK</button>
+            <button class="interface-tab" data-target="if-cli">Typer CLI</button>
+            <button class="interface-tab" data-target="if-api">FastAPI REST</button>
+            <button class="interface-tab" data-target="if-plugin">Plugin System</button>
+        </div>
+
+        <div class="interface-display glass-card">
+            <!-- Python SDK -->
+            <div id="if-sdk" class="interface-pane active">
+                <div class="interface-desc">Directly import the compiler into your Python applications. Returns fully typed Pydantic models.</div>
+                <pre><code><span class="keyword">from</span> vindex <span class="keyword">import</span> compile_video
+
+<span class="comment"># Compile video once; returns a typed VisualMemory model</span>
+memory = compile_video(<span class="string">"lecture.mp4"</span>, output_dir=<span class="string">"./dist"</span>)
+
+<span class="comment"># Query deterministic scenes and shots</span>
+<span class="keyword">for</span> scene <span class="keyword">in</span> memory.timeline.scenes:
+    <span class="built_in">print</span>(<span class="string">f"Scene {scene.scene_id}: {scene.dominant_caption} [{scene.start_ms}ms - {scene.end_ms}ms]"</span>)
+    <span class="keyword">for</span> shot <span class="keyword">in</span> scene.shots:
+        <span class="built_in">print</span>(<span class="string">f"  Shot {shot.shot_id}: {len(shot.ocr)} OCR text elements, {len(shot.asr_words)} spoken words"</span>)</code></pre>
+            </div>
+
+            <!-- Typer CLI -->
+            <div id="if-cli" class="interface-pane">
+                <div class="interface-desc">Rich Typer-powered CLI for bash scripting, CI checks, and artifact verification.</div>
+                <pre><code><span class="comment"># Compile full video to structured JSON and Markdown</span>
+<span class="prompt">$</span> vindex compile lecture.mp4 -o ./dist
+
+<span class="comment"># Run isolated stages or pass external transcript</span>
+<span class="prompt">$</span> vindex compile lecture.mp4 --stages scene,ocr -t pre_whisper.json
+
+<span class="comment"># Inspect compiled JSON artifacts with terminal formatting</span>
+<span class="prompt">$</span> vindex inspect ./dist/visual_memory.json
+
+<span class="comment"># Validate schema integrity against Pydantic v2 schemas</span>
+<span class="prompt">$</span> vindex validate ./dist/visual_memory.json -t VisualMemory
+
+<span class="comment"># Run golden fixture evaluation harness (accuracy & recall benchmarks)</span>
+<span class="prompt">$</span> vindex eval eval/golden/fixture_001 ./dist</code></pre>
+            </div>
+
+            <!-- FastAPI REST -->
+            <div id="if-api" class="interface-pane">
+                <div class="interface-desc">Background job service with built-in Web Studio UI for drag-and-drop video perception.</div>
+                <pre><code><span class="comment"># Start the local FastAPI server and Web Studio UI</span>
+<span class="prompt">$</span> uv run uvicorn vindex.api.app:app --host 127.0.0.1 --port 8000
+
+<span class="comment"># Submit video for async background compilation</span>
+<span class="prompt">$</span> curl -X POST http://localhost:8000/api/compile -F "video=@lecture.mp4"
+<span class="string">{"job_id": "c9a4b2e8-5f11-4b2a", "status": "processing"}</span>
+
+<span class="comment"># Poll job status</span>
+<span class="prompt">$</span> curl http://localhost:8000/api/jobs/c9a4b2e8-5f11-4b2a/status
+
+<span class="comment"># Retrieve compiled JSON facts or grounded Markdown narration</span>
+<span class="prompt">$</span> curl http://localhost:8000/api/jobs/c9a4b2e8-5f11-4b2a/result
+<span class="prompt">$</span> curl http://localhost:8000/api/jobs/c9a4b2e8-5f11-4b2a/narration</code></pre>
+            </div>
+
+            <!-- Plugin System -->
+            <div id="if-plugin" class="interface-pane">
+                <div class="interface-desc">Extend or swap any extractor, runtime, or output format using standard Python entry_points.</div>
+                <pre><code><span class="comment"># In your pyproject.toml:</span>
+[project.entry-points."vindex.extractors"]
+custom_asr = "my_custom_package.asr:CloudOrLocalASRExtractor"
+
+[project.entry-points."vindex.runtimes"]
+llamacpp_vlm = "my_custom_package.vlm:LlamaCppVLMRuntime"
+
+<span class="comment"># Dynamic discovery in core code:</span>
+<span class="keyword">from</span> vindex.core.plugins <span class="keyword">import</span> get_extractor_plugins, get_runtime_plugins
+extractors = get_extractor_plugins()  <span class="comment"># Decoupled, zero core modifications</span></code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Core Guarantees -->
+    <section class="features">
+        <h2 class="section-title">Built for Systems That Demand Predictability</h2>
+        
+        <div class="feature-grid">
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect><path d="M7 11V7a5 5 0 0 1 10 0v4"></path></svg>
+                </div>
+                <h3>100% Local-First & Private</h3>
+                <p>No network calls. No API keys. No video frames leaving your device. Whisper, PaddleOCR, and Qwen run entirely on local silicon.</p>
+            </div>
+            
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </div>
+                <h3>Byte-for-Byte Determinism</h3>
+                <p>Treat video understanding as compilation. The exact same video and config always produces byte-identical facts and schema outputs.</p>
+            </div>
+            
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </div>
+                <h3>Strict Schema Versioning</h3>
+                <p>All outputs validate against Pydantic v2 schemas. Every artifact carries an explicit <code>schema_version</code> to prevent silent drift.</p>
+            </div>
+
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg>
+                </div>
+                <h3>Grounded Narration</h3>
+                <p>The LLM narration layer is strictly grounded. It phrases facts compiled in JSON and is strictly forbidden from hallucinating unseen content.</p>
+            </div>
+            
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+                </div>
+                <h3>Decoupled Plugin Core</h3>
+                <p>Every extractor, runtime, and output serializer sits behind an abstract interface. Swap or extend components without forking the codebase.</p>
+            </div>
+            
+            <div class="feature-card glass-card hover-lift">
+                <div class="feature-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"></path><line x1="4" y1="22" x2="4" y2="15"></line></svg>
+                </div>
+                <h3>Golden Fixture Eval Harness</h3>
+                <p>Built-in evaluation harness (<code>vindex eval</code>) scores compiled outputs against ground-truth fixtures using Jaccard and F1 metrics.</p>
+            </div>
         </div>
     </section>
 
     <!-- Footer CTA -->
     <footer class="footer-cta">
-        <h2>Ready to give your LLM eyes?</h2>
-        <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn glow-btn">Star the Repository</a>
-        <p class="footer-note">MIT Licensed. Built by Vaibhav Dubey & the open-source community.</p>
+        <h2>Ready to compile your first video?</h2>
+        <div class="cta-group">
+            <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="primary-btn glow-btn">Star on GitHub</a>
+            <a href="https://github.com/vaibhav-space/vindex#readme" target="_blank" class="secondary-btn">Read the Documentation</a>
+        </div>
+        <p class="footer-note">MIT Licensed • Built by Vaibhav Dubey & the open-source community • Verified package name: <code>vindex-video</code></p>
     </footer>
 
     <!-- JS -->

@@ -1,5 +1,6 @@
 import json
 import logging
+import os
 import uuid
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -29,7 +30,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-BASE_JOBS_DIR = Path("/Users/vaibhav/code/vindex/temp_jobs")
+BASE_JOBS_DIR = Path(os.environ.get("VINDEX_JOBS_DIR", Path.home() / ".vindex" / "temp_jobs"))
 BASE_JOBS_DIR.mkdir(parents=True, exist_ok=True)
 
 # In-memory job state tracking
@@ -96,16 +97,18 @@ async def compile_video_endpoint(
         logger.error(f"Failed to write temp video file: {e}")
         raise HTTPException(status_code=500, detail=f"Failed to upload video file: {str(e)}") from e
 
-    # Construct Vindex configuration
+    # Construct Vindex configuration with environment-variable-backed defaults
+    vindex_models_dir = Path(os.environ.get("VINDEX_MODELS_DIR", Path.home() / ".vindex" / "models"))
+    paddlex_models_dir = Path(os.environ.get("PADDLEX_MODELS_DIR", Path.home() / ".paddlex" / "official_models"))
+
     config = {
         "use_cache": False,
         "sampling_strategy": sampling_strategy,
-        "asr_model_dir": "/Users/vaibhav/.vindex/models/faster-whisper-medium",
-
-        "det_model_dir": "/Users/vaibhav/.paddlex/official_models/PP-OCRv6_medium_det",
-        "rec_model_dir": "/Users/vaibhav/.paddlex/official_models/PP-OCRv6_medium_rec",
-        "vlm_model_dir": "/Users/vaibhav/.vindex/models/Qwen2-VL-2B-Instruct-4bit",
-        "embed_model_dir": "/Users/vaibhav/.vindex/models/all-MiniLM-L6-v2",
+        "asr_model_dir": os.environ.get("VINDEX_ASR_MODEL_DIR", str(vindex_models_dir / "faster-whisper-medium")),
+        "det_model_dir": os.environ.get("VINDEX_DET_MODEL_DIR", str(paddlex_models_dir / "PP-OCRv6_medium_det")),
+        "rec_model_dir": os.environ.get("VINDEX_REC_MODEL_DIR", str(paddlex_models_dir / "PP-OCRv6_medium_rec")),
+        "vlm_model_dir": os.environ.get("VINDEX_VLM_MODEL_DIR", str(vindex_models_dir / "Qwen2-VL-2B-Instruct-4bit")),
+        "embed_model_dir": os.environ.get("VINDEX_EMBED_MODEL_DIR", str(vindex_models_dir / "all-MiniLM-L6-v2")),
         "scene_understanding.ignore_text_regions": True,
         "similarity_threshold": 0.65,
         "max_gap_ms": 5000,

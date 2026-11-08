@@ -130,16 +130,16 @@ All five extractors pass their unit tests and golden fixture tests. Each extract
 
 ### Deliverables
 
-- [ ] `Shot` assembly — groups `ShotObservation` + `FrameObservation` + `ASRWordObservation` + `OCRObservation` + `CaptionObservation` into structured `Shot` objects
-- [ ] `Scene` grouping — clusters shots into semantically coherent scenes using caption-embedding similarity + time proximity + ASR speaker continuity heuristics
-- [ ] `Event` derivation — identifies named Events from observation patterns (speaker change, slide transition, etc.)
-- [ ] `Relationship` resolution — identifies spatial and temporal relationships between observations (e.g., OCR text overlapping the same time window as a caption)
-- [ ] `Timeline` construction — assembles the ordered spine of Scenes and Events
-- [ ] `VisualMemory` assembly — top-level artifact combining all the above
-- [ ] All outputs validate against their Pydantic schemas
-- [ ] Golden fixture tests: feed known extractor outputs → verify known compiler outputs (tested against `/eval/golden/`)
-- [ ] Comprehensive unit tests for each compiler step independently
-- [ ] `/docs/compiler.md`
+- [x] `Shot` assembly — groups `ShotObservation` + `FrameObservation` + `ASRWordObservation` + `OCRObservation` + `CaptionObservation` into structured `Shot` objects
+- [x] `Scene` grouping — clusters shots into semantically coherent scenes using caption-embedding similarity + time proximity + ASR speaker continuity heuristics
+- [x] `Event` derivation — identifies named Events from observation patterns (speaker change, slide transition, etc.)
+- [x] `Relationship` resolution — identifies spatial and temporal relationships between observations (e.g., OCR text overlapping the same time window as a caption)
+- [x] `Timeline` construction — assembles the ordered spine of Scenes and Events
+- [x] `VisualMemory` assembly — top-level artifact combining all the above
+- [x] All outputs validate against their Pydantic schemas
+- [x] Golden fixture tests: feed known extractor outputs → verify known compiler outputs (tested against `/eval/golden/`)
+- [x] Comprehensive unit tests for each compiler step independently
+- [x] `/docs/compiler.md`
 
 ### Completion criteria
 
@@ -176,18 +176,18 @@ For each golden video: the narrator produces a `visual_memory.md` that passes fa
 
 ### Deliverables
 
-- [ ] `vindex compile <video>` — runs the full pipeline and writes all output artifacts
-- [ ] `vindex compile --stages scene,ocr,asr` — runs a subset of stages
-- [ ] `vindex compile --transcript <file>` — accepts an existing transcript, skips ASR
-- [ ] `vindex inspect <artifact>` — pretty-prints a compiled artifact
-- [ ] `vindex validate <artifact>` — validates a JSON artifact against its schema
-- [ ] Python SDK entry points (`from vindex import compile_video`)
-- [ ] `--output-dir` flag for controlling output location
-- [ ] `--config` flag for providing a TOML configuration file
-- [ ] CLI help text is accurate and complete
+- [x] `vindex compile <video>` — runs the full pipeline and writes all output artifacts
+- [x] `vindex compile --stages scene,ocr,asr` — runs a subset of stages
+- [x] `vindex compile --transcript <file>` — accepts an existing transcript, skips ASR
+- [x] `vindex inspect <artifact>` — pretty-prints a compiled artifact
+- [x] `vindex validate <artifact>` — validates a JSON artifact against its schema
+- [x] Python SDK entry points (`from vindex import compile_video`)
+- [x] `--output-dir` flag for controlling output location
+- [x] `--config` flag for providing a TOML configuration file
+- [x] CLI help text is accurate and complete
 - [ ] Python SDK is documented in `/docs/sdk.md`
-- [ ] CLI is documented in `/docs/cli.md`
-- [ ] End-to-end integration test: `vindex compile` on a golden video produces the expected artifacts
+- [x] CLI is documented in `/docs/cli.md`
+- [x] End-to-end integration test: `vindex compile` on a golden video produces the expected artifacts
 
 ### Completion criteria
 
@@ -203,15 +203,15 @@ For each golden video: the narrator produces a `visual_memory.md` that passes fa
 
 ### Deliverables
 
-- [ ] `ExtractorPlugin` interface documented and stable
-- [ ] `RuntimePlugin` interface documented and stable
-- [ ] `OutputPlugin` interface documented and stable
-- [ ] At least one reference plugin per category (e.g., a faster-whisper ASR plugin, a Tesseract OCR fallback plugin)
-- [ ] Plugin discovery via Python `entry_points` verified working end-to-end
-- [ ] `/docs/plugins/` — plugin authoring guide, interface contracts, examples
-- [ ] MkDocs site builds successfully
-- [ ] All public API surfaces have docstrings
-- [ ] `CONTRIBUTING.md` — contributor guide covering setup, testing, and PR expectations
+- [x] `ExtractorPlugin` interface documented and stable
+- [x] `RuntimePlugin` interface documented and stable
+- [x] `OutputPlugin` interface documented and stable
+- [x] At least one reference plugin per category (e.g., faster-whisper ASR, paddleocr OCR, mlx-vlm captioner)
+- [x] Plugin discovery via Python `entry_points` verified working end-to-end
+- [x] `/docs/plugins/` — plugin authoring guide, interface contracts, examples
+- [x] MkDocs site builds successfully
+- [x] All public API surfaces have docstrings
+- [x] `CONTRIBUTING.md` — contributor guide covering setup, testing, and PR expectations
 
 ### Completion criteria
 

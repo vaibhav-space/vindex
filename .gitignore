@@ -65,6 +65,7 @@ test video/
 
 # Scratch & Temporary Developer Docs
 scratch/
+docs/superpowers/
 REPO_MAP.md
 ASSUMPTIONS.md
 SCOPE.md

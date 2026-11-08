@@ -4,21 +4,21 @@ This is the living project tracker. It reflects the current state of the reposit
 
 **Agents: update this file after completing any milestone. Never let it drift from reality.**
 
-Last updated: 2026-07-08
+Last updated: 2026-11-08
 
 ---
 
 ## Current Status
 
-**Phase:** Remediations and Core Cleanup (Phase 2, 4, 5 Partially Complete)
+**Phase:** Application-Ready & Core Hardened (Phases 0–6 Implemented, V0.2 Release Candidate)
 
-**Summary:** The foundation, extractor layer, narration layer, evaluation harness, caching, and core compiler execution are fully implemented and passing all tests. However, the compiler's relationship resolution step, the CLI's extra subcommands/flags, and the plugin discovery system are partially complete or missing from implementation.
+**Summary:** The foundation, extractor layer, relationship resolution compiler, narration layer, evaluation harness, content-addressed caching, CLI (`compile`, `eval`, `inspect`, `validate`, `--stages`), REST API with Web Studio video preview, and plugin discovery system are fully implemented and passing all tests. Portable path handling and automated CI test pipelines are in place.
 
 ---
 
 ## Completed Milestones
 
-### Documentation Foundation, Phase 0, Phase 1, Phase 3 & Phase 6
+### Documentation Foundation, Phase 0, Phase 1, Phase 2, Phase 3, Phase 4, Phase 5 & Phase 6
 
 - [x] Raw architecture document reviewed and synthesized
 - [x] `README.md` — public landing page
@@ -32,16 +32,22 @@ Last updated: 2026-07-08
 - [x] `PROJECT_STATE.md` — this file
 - [x] Phase 0 Foundation — canonical package tree, pyproject.toml, glossary, scopes, Pydantic schemas, exported JSON Schemas, interfaces, and CI configurations
 - [x] Phase 1 Extractor Layer — ASR, OCR, SceneDetector, FrameExtractor, and VLMCaptioner extractors and the content-addressed ObservationCache caching layer
+- [x] Phase 2 Compiler Core — shot assembly, scene grouping, event derivation, timeline construction, and `RelationshipResolver` (spatial/temporal OCR-to-caption mapping)
 - [x] Phase 3 Narration Layer — LLM-driven Markdown narrator (`Narrator`) and strict grounding prompt template
+- [x] Phase 4 CLI & REST API — `vindex compile`, `inspect`, `validate`, `--stages`, `--config`, and FastAPI REST server with Web Studio UI & live video preview
+- [x] Phase 5 Plugin Discovery — `vindex/core/plugins.py` dynamic loading via standard `importlib.metadata.entry_points` (`vindex.extractors`, `vindex.runtimes`, `vindex.outputs`)
 - [x] Phase 6 Evaluation Harness — `vindex eval` CLI subcommand, scoring metrics, and pass/fail thresholds
+- [x] Machine-Independent Portability — Environment-variable configurable paths (`VINDEX_MODELS_DIR`, `VINDEX_JOBS_DIR`, `PADDLEX_MODELS_DIR`) with user-home fallbacks
+- [x] Weight Management Utility — `scripts/download_weights.py` with `--dry-run` and per-model flags
 
 ---
 
-## In-Progress Milestones
+## Remaining Limitations & Future Work
 
-- [/] Phase 2 Compiler — shot assembly, scene grouping, event derivation, and timeline construction are complete. Relationship resolution and speaker continuity heuristics are missing.
-- [/] Phase 4 CLI and Python SDK — `compile_video` SDK is complete. CLI features like `--stages`, `inspect`, and `validate` are in progress.
-- [/] Phase 5 Plugin System — MkDocs and contributing documentation are complete. Dynamic loading via entry points is in progress.
+- **Cross-scene multi-speaker diarization:** Speaker continuity across shot cuts relies on Whisper timestamps; acoustic clustering / voiceprint diarization is planned for v0.3.
+- **Hardware constraints:** MLX-based VLM inference is optimized for Apple Silicon (macOS); Linux inference relies on CPU runtime or external llama.cpp plugin.
+- **Object Detection & Motion Flow:** `object_index.json` (YOLO) and optical flow classification are prototyped in `vindex/runtimes/objects` and `vindex/runtimes/motion`, deferred from the default pipeline.
+- **PyPI Distribution Namespace:** Distribution name is registered as `vindex-video` to avoid conflict with an existing unrelated PyPI package (`vindex`), while retaining `import vindex` in Python.
 
 ---
 
@@ -53,11 +59,12 @@ See [ROADMAP.md](ROADMAP.md) for full details. Summary:
 |---|---|---|
 | 0 | Foundation — repository structure, governance files, schemas, golden fixtures | Completed |
 | 1 | Extractor layer — SceneDetector, FrameExtractor, ASRExtractor, OCRExtractor, VLMCaptioner, caching | Completed |
-| 2 | Compiler — shot assembly, scene grouping, event derivation, timeline construction | Partially Complete |
+| 2 | Compiler — shot assembly, scene grouping, event derivation, timeline, relationship resolver | Completed |
 | 3 | Narration layer — grounded LLM Markdown generation | Completed |
-| 4 | CLI and Python SDK — `vindex compile`, SDK entry points | Partially Complete |
-| 5 | Plugin system and documentation | Partially Complete |
-| 6 | Evaluation harness | Completed |
+| 4 | CLI and Python SDK — `vindex compile`, `inspect`, `validate`, `--stages`, REST API & Web Studio | Completed |
+| 5 | Plugin system and documentation — entry_points loading, MkDocs | Completed |
+| 6 | Evaluation harness — fixture comparison, Jaccard/F1 metrics | Completed |
+| 7 | Cross-scene entity tracking & Acoustic Diarization | Planned (v0.3) |
 
 ---
 

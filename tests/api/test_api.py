@@ -1,9 +1,11 @@
 import io
 import time
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
+
 from fastapi.testclient import TestClient
-from vindex.api.app import app, JOBS, BASE_JOBS_DIR
-from vindex.core.schemas.artifacts import VisualMemory, Timeline
+
+from vindex.api.app import app
+from vindex.core.schemas.artifacts import Timeline, VisualMemory
 
 client = TestClient(app)
 

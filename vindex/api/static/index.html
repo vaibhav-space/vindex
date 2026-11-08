@@ -726,6 +726,12 @@
                     <input type="file" id="videoFile" class="file-input" accept="video/*">
                 </div>
 
+                <!-- Video Preview Player Container -->
+                <div class="video-preview-wrapper" id="videoPreviewWrapper" style="display: none; margin-top: 1rem; border-radius: var(--radius-md); overflow: hidden; border: 1px solid var(--border-glass); background: #000;">
+                    <video id="videoPreview" controls playsinline style="width: 100%; max-height: 220px; display: block; border-radius: var(--radius-md); background: #000;"></video>
+                    <div id="videoMeta" style="padding: 0.5rem 0.75rem; font-size: 0.75rem; color: var(--text-muted); display: flex; justify-content: space-between; background: rgba(0,0,0,0.6);"></div>
+                </div>
+
                 <div class="stage-options">
                     <h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-top: 0.5rem;">Pipeline Options</h3>
                     
@@ -892,6 +898,24 @@
             selectedFile = file;
             uploadZone.querySelector('p').innerText = `Selected: ${file.name}`;
             uploadZone.querySelector('span').innerText = `${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+            // Display live video preview
+            const videoPreviewWrapper = document.getElementById('videoPreviewWrapper');
+            const videoPreview = document.getElementById('videoPreview');
+            const videoMeta = document.getElementById('videoMeta');
+            if (videoPreviewWrapper && videoPreview) {
+                const objectUrl = URL.createObjectURL(file);
+                videoPreview.src = objectUrl;
+                videoPreviewWrapper.style.display = 'block';
+                videoPreview.onloadedmetadata = () => {
+                    if (videoMeta) {
+                        const mins = Math.floor(videoPreview.duration / 60);
+                        const secs = Math.floor(videoPreview.duration % 60);
+                        videoMeta.innerHTML = `<span>📐 ${videoPreview.videoWidth}×${videoPreview.videoHeight}</span><span>⏱️ ${mins}:${secs < 10 ? '0' : ''}${secs}</span>`;
+                    }
+                };
+            }
+
             btnCompile.disabled = false;
         }
 

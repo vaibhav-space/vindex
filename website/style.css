@@ -416,4 +416,213 @@ body {
 @media (max-width: 900px) {
     .sdk-demo { grid-template-columns: 1fr; }
     .hero-title { font-size: 3.5rem; }
+    .pipeline-flow { flex-direction: column; align-items: center; }
+    .pipeline-arrow { transform: rotate(90deg); margin: 0.5rem 0; }
+    .comparison-grid { grid-template-columns: 1fr; }
+    .nav-menu { display: none; }
+}
+
+/* Nav Menu */
+.nav-menu {
+    display: flex;
+    gap: 1.75rem;
+}
+.nav-item {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: color 0.2s ease;
+}
+.nav-item:hover {
+    color: var(--accent-neon);
+}
+
+/* Problem Section & Comparison Grid */
+.problem-section, .pipeline-section, .artifacts-section, .interfaces-section {
+    padding: 6rem 5%;
+    max-width: 1300px;
+    margin: 0 auto;
+}
+
+.comparison-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.comparison-card {
+    padding: 2.5rem;
+    border-radius: 16px;
+    position: relative;
+}
+
+.card-tag {
+    display: inline-block;
+    padding: 0.35rem 0.85rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 1rem;
+    background: rgba(239, 68, 68, 0.15);
+    color: #f87171;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.card-tag.highlight {
+    background: rgba(16, 185, 129, 0.15);
+    color: #34d399;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.comparison-card h3 {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.comparison-card ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.comparison-card ul li {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+}
+
+.comparison-card ul li strong {
+    color: var(--text-primary);
+}
+
+/* Pipeline Flow */
+.pipeline-flow {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 1rem;
+    margin-top: 3rem;
+}
+
+.pipeline-step {
+    flex: 1;
+    padding: 1.75rem 1.25rem;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+}
+
+.step-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--accent-neon);
+    margin-bottom: 0.75rem;
+}
+
+.pipeline-step h4 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.pipeline-step p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    flex-grow: 1;
+}
+
+.step-tech {
+    margin-top: 1rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--accent-neon);
+}
+
+.pipeline-arrow {
+    display: flex;
+    align-items: center;
+    color: var(--accent-neon);
+    font-size: 1.25rem;
+    opacity: 0.6;
+}
+
+/* Artifacts Tabs & Explorer */
+.artifacts-header {
+    margin-bottom: 2rem;
+}
+
+.artifact-tabs, .interface-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.artifact-tab, .interface-tab {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: var(--text-secondary);
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.artifact-tab:hover, .interface-tab:hover {
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+}
+
+.artifact-tab.active, .interface-tab.active {
+    background: rgba(139, 92, 246, 0.2);
+    border-color: var(--accent-neon);
+    color: #fff;
+    font-weight: 600;
+}
+
+.artifact-viewer {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.artifact-content, .interface-pane {
+    display: none;
+    padding: 1.5rem;
+    overflow-x: auto;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    color: #e2e8f0;
+}
+
+.artifact-content.active, .interface-pane.active {
+    display: block;
+}
+
+.interface-display {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 12px;
+}
+
+.interface-desc {
+    padding: 1rem 1.5rem;
+    background: rgba(0, 0, 0, 0.25);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-family: 'Inter', sans-serif;
 }

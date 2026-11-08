@@ -92,7 +92,7 @@ class MLXVLMRuntime(SceneUnderstandingRuntime, LLMRuntime):
             self.model,
             self.processor,
             prompt=formatted_prompt,
-            image=images,  # type: ignore
+            image=images,
             max_tokens=max_tokens,
             temperature=temp,
             repetition_penalty=1.2,

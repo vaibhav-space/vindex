@@ -152,16 +152,17 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full pipeline design.
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-org/vindex.git
+git clone https://github.com/vaibhav-space/vindex.git
 cd vindex
 
 # Install with uv (recommended)
-pip install uv
 uv sync
 
-# Or install directly via pip
-pip install vindex
+# Or install editable via pip
+pip install -e .
 ```
+
+> **PyPI Distribution Note:** The verified distribution name is `vindex-video` (preserving the Python import namespace `import vindex`). For source installation, use `uv sync` or `pip install -e .`.
 
 ### 2. Install ffmpeg (required system dependency)
 
@@ -173,11 +174,23 @@ brew install ffmpeg
 sudo apt install ffmpeg
 ```
 
-### 3. Download model weights (one-time, ~3.5 GB)
+### 3. Model weights setup
+
+Model weights are stored locally in `~/.vindex/models` (or customized via `VINDEX_MODELS_DIR`).
 
 ```bash
+# Dry-run inspection of required model weights (no network download)
+uv run python scripts/download_weights.py --dry-run
+
+# Download all required weights (one-time setup, ~3.5 GB)
 uv run python scripts/download_weights.py
+
+# Or download individual models (e.g. whisper only)
+uv run python scripts/download_weights.py --model whisper
 ```
+
+> **Model-free compilation:** You can compile videos or test the pipeline offline without downloading models by providing a pre-existing Whisper transcript:
+> `vindex compile lecture.mp4 --stages scene --transcript-path custom_transcript.json`
 
 ### 4. Start the API server and web UI
 

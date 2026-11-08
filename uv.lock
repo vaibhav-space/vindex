@@ -3887,8 +3887,8 @@ wheels = [
 ]
 
 [[package]]
-name = "vindex"
-version = "0.1.0"
+name = "vindex-video"
+version = "0.2.0"
 source = { editable = "." }
 dependencies = [
     { name = "av" },

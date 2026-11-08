@@ -16,13 +16,16 @@ def test_e2e_heavy_model_pipeline(tmp_path):
     output_dir = tmp_path / "e2e_heavy_dist"
     
     # Configure actual model dirs
+    vindex_models_dir = Path(os.environ.get("VINDEX_MODELS_DIR", Path.home() / ".vindex" / "models"))
+    paddlex_models_dir = Path(os.environ.get("PADDLEX_MODELS_DIR", Path.home() / ".paddlex" / "official_models"))
+
     config = {
         "use_cache": False,
-        "asr_model_dir": "/Users/vaibhav/.vindex/models/faster-whisper-medium",
-        "det_model_dir": "/Users/vaibhav/.paddlex/official_models/PP-OCRv6_medium_det",
-        "rec_model_dir": "/Users/vaibhav/.paddlex/official_models/PP-OCRv6_medium_rec",
-        "vlm_model_dir": "/Users/vaibhav/.vindex/models/Qwen2-VL-2B-Instruct-4bit",
-        "embed_model_dir": "/Users/vaibhav/.vindex/models/all-MiniLM-L6-v2",
+        "asr_model_dir": os.environ.get("VINDEX_ASR_MODEL_DIR", str(vindex_models_dir / "faster-whisper-medium")),
+        "det_model_dir": os.environ.get("VINDEX_DET_MODEL_DIR", str(paddlex_models_dir / "PP-OCRv6_medium_det")),
+        "rec_model_dir": os.environ.get("VINDEX_REC_MODEL_DIR", str(paddlex_models_dir / "PP-OCRv6_medium_rec")),
+        "vlm_model_dir": os.environ.get("VINDEX_VLM_MODEL_DIR", str(vindex_models_dir / "Qwen2-VL-2B-Instruct-4bit")),
+        "embed_model_dir": os.environ.get("VINDEX_EMBED_MODEL_DIR", str(vindex_models_dir / "all-MiniLM-L6-v2")),
         "similarity_threshold": 0.65,
         "max_gap_ms": 5000,
         "sampling_strategy": "middle",
