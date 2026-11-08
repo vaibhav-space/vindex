@@ -13,9 +13,9 @@
 
 ## What is vindex?
 
-`vindex` is a local-first, open-source Python SDK and REST API that processes any video file through a modular multi-modal extraction pipeline and produces **stable, typed, versioned output artifacts** — structured JSON and human-readable Markdown — that any downstream system (AI agent, RAG pipeline, search index, video editor) can consume without ever touching the raw video again.
+`vindex` is a local-first, open-source Python SDK, CLI, and REST API that processes any video file through a modular multi-modal extraction pipeline and produces **stable, typed, versioned output artifacts** — structured JSON and human-readable Markdown — that any downstream system (AI agent, RAG pipeline, search index, video editor) can consume without ever touching the raw video again.
 
-It is a **compiler**, not an assistant. It produces **facts**, not opinions. It runs **entirely on your machine** with no cloud account, no API key, and no data leaving your device.
+It is a **compiler**, not an assistant. It produces **facts**, not opinions. It runs **entirely on your machine** with **zero API keys, no paid subscriptions, no cloud dependencies, and zero data leaving your device** — 100% free and open-source under the MIT license.
 
 Think of it as [Tesseract](https://github.com/tesseract-ocr/tesseract) — but for everything a video contains, not just the text in it.
 

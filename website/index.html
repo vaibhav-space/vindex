@@ -35,7 +35,6 @@
                 <a href="https://github.com/vaibhav-space/vindex#readme" target="_blank" class="nav-link">Docs</a>
             </div>
             <div class="nav-actions">
-                <a href="http://localhost:8000/" target="_blank" class="btn-studio">Open Studio UI</a>
                 <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="btn-github">
                     <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
@@ -50,7 +49,7 @@
     <header class="hero">
         <div class="hero-content">
             <h1 class="hero-headline">Compile video into facts.<br>Never watch the same video twice.</h1>
-            <p class="hero-lead">vindex is a local-first video knowledge compiler. It processes video once into deterministic, schema-versioned JSON & Markdown artifacts — giving downstream AI agents and RAG pipelines instant video understanding without burning tokens or streaming raw frames.</p>
+            <p class="hero-lead">vindex is a 100% free, local-first video knowledge compiler. <strong>Zero API keys, no paid subscriptions, and no cloud lock-in.</strong> It processes video once into deterministic, schema-versioned JSON & Markdown artifacts — giving downstream AI agents and RAG pipelines instant video understanding without burning tokens or streaming raw frames.</p>
             
             <div class="hero-cta">
                 <a href="https://github.com/vaibhav-space/vindex" target="_blank" class="btn-primary">View on GitHub</a>
@@ -58,6 +57,29 @@
                     <code>git clone https://github.com/vaibhav-space/vindex.git</code>
                     <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                 </button>
+            </div>
+
+            <!-- Zero API Keys / Free Trust Proof Banner -->
+            <div class="hero-trust-bar">
+                <span class="trust-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    Zero API Keys
+                </span>
+                <span class="trust-divider">•</span>
+                <span class="trust-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    No Paid Subscriptions
+                </span>
+                <span class="trust-divider">•</span>
+                <span class="trust-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    100% Local Silicon
+                </span>
+                <span class="trust-divider">•</span>
+                <span class="trust-pill">
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+                    MIT Open Source
+                </span>
             </div>
         </div>
 
@@ -198,8 +220,8 @@
                 <h3>Deterministic Video Compilation</h3>
                 <ul class="contrast-list">
                     <li><strong>Compile Once, Query Forever:</strong> Compile video once into immutable, versioned JSON. Index, query, and diff with standard tools.</li>
+                    <li><strong>Zero API Keys & Subscriptions:</strong> 100% free and open-source. Runs entirely on local silicon with open weights. No paid subscriptions, no API keys, and zero cloud costs.</li>
                     <li><strong>Zero Token Bloat:</strong> Pass compact, structured Markdown or JSON directly to LLMs with microsecond semantic lookup.</li>
-                    <li><strong>100% Local-First:</strong> Runs entirely on your machine with open weights. No API keys, zero cloud egress, fully private.</li>
                     <li><strong>Byte-Reproducible:</strong> Strict Pydantic v2 schemas guarantee byte-identical outputs for identical inputs and configs.</li>
                 </ul>
             </div>
@@ -512,8 +534,8 @@ extractors = get_extractor_plugins()  <span class="comment"># Zero modifications
                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
                     </svg>
                 </div>
-                <h3>100% Local-First & Private</h3>
-                <p>No network calls. No API keys. No video leaving your device. Whisper, PaddleOCR, and Qwen run entirely on local silicon.</p>
+                <h3>100% Free & Local-First</h3>
+                <p>Zero API keys. No paid subscriptions. No video leaving your device. Whisper, PaddleOCR, and Qwen run entirely on local silicon.</p>
             </div>
 
             <div class="guarantee-card">
@@ -596,7 +618,7 @@ extractors = get_extractor_plugins()  <span class="comment"># Zero modifications
                 <div class="footer-links-group">
                     <a href="https://github.com/vaibhav-space/vindex" target="_blank">GitHub Repository</a>
                     <a href="https://github.com/vaibhav-space/vindex#readme" target="_blank">Documentation</a>
-                    <a href="http://localhost:8000/" target="_blank">Local Studio</a>
+                    <a href="https://github.com/vaibhav-space/vindex/releases" target="_blank">Releases</a>
                     <a href="https://github.com/vaibhav-space/vindex/blob/main/LICENSE" target="_blank">MIT License</a>
                 </div>
             </div>

@@ -244,6 +244,33 @@ body {
     color: var(--text-muted);
 }
 
+.hero-trust-bar {
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    flex-wrap: wrap;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.trust-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.trust-pill svg {
+    color: #059669;
+}
+
+.trust-divider {
+    color: var(--border-strong);
+    font-size: 0.75rem;
+}
+
 /* Hero Terminal Mockup (Dark Contrast) */
 .terminal-shell {
     background: var(--terminal-bg);
