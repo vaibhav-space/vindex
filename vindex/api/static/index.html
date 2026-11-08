@@ -163,14 +163,19 @@
             color: var(--text-primary);
         }
 
-        /* Clean Vercel Geometric Triangle Mark */
-        .logo-mark {
-            width: 22px;
-            height: 22px;
+        .logo-badge {
+            width: 24px;
+            height: 24px;
+            background: var(--text-primary);
+            color: var(--bg-page);
+            border-radius: 5px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--text-primary);
+            font-weight: 700;
+            font-size: 0.82rem;
+            font-family: var(--font-mono);
+            line-height: 1;
         }
 
         .logo-title {
@@ -838,12 +843,7 @@
     <header>
         <div class="header-left">
             <div class="logo-wrap">
-                <div class="logo-mark">
-                    <!-- Clean geometric triangle mark -->
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 2L2 22h20L12 2z"/>
-                    </svg>
-                </div>
+                <div class="logo-badge">V</div>
                 <div class="logo-title">vindex studio</div>
             </div>
             <div class="version-tag">v0.2.0</div>
