@@ -36,5 +36,5 @@ def test_scene_detector_determinism():
 
 def test_scene_detector_missing_file():
     extractor = PySceneDetectExtractor()
-    with pytest.raises(Exception):
+    with pytest.raises(FileNotFoundError):
         list(extractor.extract(Path("non_existent_video.mp4"), {}))

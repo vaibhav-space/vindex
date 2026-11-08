@@ -12,7 +12,7 @@ client = TestClient(app)
 def test_get_index():
     response = client.get("/")
     assert response.status_code == 200
-    assert "Vindex Studio" in response.text or "Vindex Client" in response.text
+    assert "vindex studio" in response.text.lower() or "vindex client" in response.text.lower()
 
 @patch("vindex.api.app.compile_video")
 def test_compile_and_status_flow(mock_compile):
@@ -86,3 +86,24 @@ def test_invalid_job_id():
     
     response = client.get("/api/jobs/invalid-uuid-string-xyz/narration")
     assert response.status_code == 404
+
+
+def test_demo_static_endpoints():
+    # Test demo video serving
+    response = client.get("/demo.mp4")
+    assert response.status_code == 200
+    assert "video/mp4" in response.headers.get("content-type", "")
+
+    # Test demo data javascript serving
+    response = client.get("/demo_data.js")
+    assert response.status_code == 200
+    assert "DEMO_VINDEX_DATA" in response.text
+
+    # Test demo keyframe images
+    response = client.get("/frames/sh001_1500.png")
+    assert response.status_code == 200
+
+    # Test nonexistent frame returns 404
+    response = client.get("/frames/missing_frame_xyz.png")
+    assert response.status_code == 404
+

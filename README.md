@@ -53,6 +53,23 @@ All JSON artifacts are validated against **versioned Pydantic schemas**. Schema 
 
 ---
 
+## Live Demo & Compiled Knowledge Preview
+
+The repository includes an interactive live demo video ([`website/demo.mp4`](website/demo.mp4), 10.03s, 1280×720):
+> *"Stop making AI watch the same video twice. Vindex compiles it into reusable knowledge."*
+
+Compiling this demo video via `vindex compile website/demo.mp4` yields a deterministic 3-scene timeline:
+
+| Scene | Timecode | VLM Visual Caption | Spoken Audio (ASR) | Extracted Text (OCR) |
+|---|---|---|---|---|
+| **Scene 1** (`sc001`) | `00:00.00 – 00:03.20` | Robotic manipulator arms spotlighting sensor hardware in a dark research lab | *"Stop making AI watch the same video twice."* (100% confidence) | `LAB STAGE 01` (bbox: `[110, 80, 240, 110]`) |
+| **Scene 2** (`sc002`) | `00:03.20 – 00:07.50` | 3D isometric perception pipeline with glass timeline layers, waveform telemetry & HUD | *"Vindex compiles it into reusable knowledge."* (99% confidence) | `"scenes": [...]`, `"ocr"`, `00:00:00`, `00:04:05` |
+| **Scene 3** (`sc003`) | `00:07.50 – 00:10.03` | Monolithic architectural brand lockup against textured dark panelling | *(None)* | `VINDEX` (0.99), `Open-source video knowledge compiler.` (0.99) |
+
+You can explore this video, its synchronized timeline, and raw Pydantic JSON in the **interactive Web Studio** (`uv run uvicorn vindex.api.app:app`) by clicking **"Load Live Demo Video"** in the navigation bar.
+
+---
+
 ## Use cases
 
 | Use case | How vindex helps |

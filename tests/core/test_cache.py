@@ -32,12 +32,11 @@ def test_cache_key_generation():
     video_hash = "mock_hash"
     extractor_id = "test_extractor"
     config1 = {"param": "value", "shots": [1, 2]}
-    config2 = {"param": "value", "cache_dir": "/tmp"}
+    config2 = {"param": "value", "shots": [1, 2]}
     
-    # 'shots' and 'cache_dir' are removed from key config in Extractor.extract,
-    # but let's test get_cache_key with raw configs
+    # Test get_cache_key consistency
     key1 = get_cache_key(video_hash, extractor_id, config1)
-    key2 = get_cache_key(video_hash, extractor_id, config1)
+    key2 = get_cache_key(video_hash, extractor_id, config2)
     assert key1 == key2
 
 
@@ -99,9 +98,9 @@ def test_extractor_cache_disabled(tmp_path):
     }
     
     # First call
-    obs1 = list(extractor.extract(video_path, config))
+    _ = list(extractor.extract(video_path, config))
     assert extractor.call_count == 1
     
     # Second call with use_cache=False: calls _extract again
-    obs2 = list(extractor.extract(video_path, config))
+    _ = list(extractor.extract(video_path, config))
     assert extractor.call_count == 2

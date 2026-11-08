@@ -58,6 +58,8 @@ temp_jobs/
 # Large Media and Test Inputs
 test video/
 *.mp4
+!website/demo.mp4
+!vindex/api/static/demo.mp4
 *.avi
 *.mov
 *.mkv

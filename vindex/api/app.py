@@ -173,9 +173,32 @@ def get_job_frame(job_id: str, filename: str) -> FileResponse:
         
     return FileResponse(frame_path)
 
+STATIC_DIR = Path(__file__).parent / "static"
+
+@app.get("/demo.mp4")
+def get_demo_video() -> FileResponse:
+    path = STATIC_DIR / "demo.mp4"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Demo video not found")
+    return FileResponse(path, media_type="video/mp4")
+
+@app.get("/demo_data.js")
+def get_demo_data() -> FileResponse:
+    path = STATIC_DIR / "demo_data.js"
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Demo data not found")
+    return FileResponse(path, media_type="application/javascript")
+
+@app.get("/frames/{filename}")
+def get_static_frame(filename: str) -> FileResponse:
+    path = STATIC_DIR / "frames" / filename
+    if not path.exists():
+        raise HTTPException(status_code=404, detail="Frame image not found")
+    return FileResponse(path)
+
 @app.get("/", response_class=HTMLResponse)
 def get_index() -> HTMLResponse:
-    static_file = Path(__file__).parent / "static" / "index.html"
+    static_file = STATIC_DIR / "index.html"
     if static_file.exists():
         return HTMLResponse(content=static_file.read_text(encoding="utf-8"), status_code=200)
     return HTMLResponse(

@@ -1,64 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. Initial Fade In Animations
-    setTimeout(() => {
-        const elements = document.querySelectorAll('.fade-up');
-        elements.forEach(el => el.classList.add('visible'));
-    }, 100);
-
-    // 2. Terminal Typing Animation
-    const terminalLines = document.querySelectorAll('.delay-load');
-    let delay = 1000;
-    
-    terminalLines.forEach((line, index) => {
-        setTimeout(() => {
-            line.style.opacity = '1';
-            line.style.transition = 'opacity 0.2s';
-        }, delay);
-        
-        // Slightly faster for the output lines, pause before success
-        if (index === 3) {
-            delay += 800; // Fake compilation time
-        } else {
-            delay += 400;
-        }
-    });
-
-    // 3. Copy Install Command
+    // 1. Copy Install Command
     const copyBtn = document.getElementById('copy-install');
     if (copyBtn) {
         copyBtn.addEventListener('click', async () => {
             try {
                 await navigator.clipboard.writeText('git clone https://github.com/vaibhav-space/vindex.git');
                 const originalHTML = copyBtn.innerHTML;
-                copyBtn.innerHTML = '<code>Copied!</code> <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="#4ade80" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-                copyBtn.style.borderColor = '#4ade80';
+                copyBtn.innerHTML = '<code>Copied!</code> <svg class="copy-icon" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+                copyBtn.style.borderColor = '#059669';
                 
                 setTimeout(() => {
                     copyBtn.innerHTML = originalHTML;
-                    copyBtn.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+                    copyBtn.style.borderColor = 'var(--border-subtle)';
                 }, 2000);
             } catch (err) {
-                console.error('Failed to copy text: ', err);
+                console.error('Failed to copy: ', err);
             }
         });
     }
 
-    // 4. Tab Switching: Artifact Explorer
-    const artifactTabs = document.querySelectorAll('.artifact-tab');
-    const artifactPanes = document.querySelectorAll('.artifact-content');
-    artifactTabs.forEach(tab => {
+    // 2. Video Player & Scene Synchronization
+    const demoVideo = document.getElementById('demoVideo');
+    const playerTime = document.getElementById('playerTime');
+    const sceneCards = document.querySelectorAll('.demo-scene-card');
+
+    if (demoVideo) {
+        demoVideo.addEventListener('timeupdate', () => {
+            const cur = demoVideo.currentTime;
+            const dur = demoVideo.duration || 10.03;
+            
+            // Format time display
+            const curMins = Math.floor(cur / 60);
+            const curSecs = (cur % 60).toFixed(2);
+            const durMins = Math.floor(dur / 60);
+            const durSecs = (dur % 60).toFixed(2);
+            if (playerTime) {
+                playerTime.innerText = `${curMins < 10 ? '0' : ''}${curMins}:${curSecs < 10 ? '0' : ''}${curSecs} / ${durMins < 10 ? '0' : ''}${durMins}:${durSecs}`;
+            }
+
+            // Sync active scene card
+            sceneCards.forEach((card, idx) => {
+                let isActive = false;
+                if (idx === 0 && cur < 3.2) isActive = true;
+                else if (idx === 1 && cur >= 3.2 && cur < 7.5) isActive = true;
+                else if (idx === 2 && cur >= 7.5) isActive = true;
+
+                if (isActive) {
+                    card.classList.add('active');
+                } else {
+                    card.classList.remove('active');
+                }
+            });
+        });
+    }
+
+    // Global seek function called by scene card onclick
+    window.seekLandingVideo = function(seconds) {
+        if (demoVideo) {
+            demoVideo.currentTime = seconds;
+            demoVideo.play().catch(() => {});
+        }
+    };
+
+    // 3. Tab Switching: Artifact Explorer
+    const artTabs = document.querySelectorAll('.art-tab');
+    const artPanes = document.querySelectorAll('.art-content');
+    artTabs.forEach(tab => {
         tab.addEventListener('click', () => {
-            artifactTabs.forEach(t => t.classList.remove('active'));
-            artifactPanes.forEach(p => p.classList.remove('active'));
+            artTabs.forEach(t => t.classList.remove('active'));
+            artPanes.forEach(p => p.classList.remove('active'));
             tab.classList.add('active');
             const target = document.getElementById(tab.dataset.target);
             if (target) target.classList.add('active');
         });
     });
 
-    // 5. Tab Switching: Developer Interfaces
-    const ifTabs = document.querySelectorAll('.interface-tab');
-    const ifPanes = document.querySelectorAll('.interface-pane');
+    // 4. Tab Switching: Developer Interfaces
+    const ifTabs = document.querySelectorAll('.if-tab');
+    const ifPanes = document.querySelectorAll('.if-pane');
     ifTabs.forEach(tab => {
         tab.addEventListener('click', () => {
             ifTabs.forEach(t => t.classList.remove('active'));
@@ -68,62 +87,4 @@ document.addEventListener('DOMContentLoaded', () => {
             if (target) target.classList.add('active');
         });
     });
-
-    // 6. Subtle Particle Canvas Background
-    const canvas = document.getElementById('particle-canvas');
-    const ctx = canvas.getContext('2d');
-    
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
-    
-    const particles = [];
-    const particleCount = Math.floor(window.innerWidth / 15);
-    
-    window.addEventListener('resize', () => {
-        width = canvas.width = window.innerWidth;
-        height = canvas.height = window.innerHeight;
-    });
-
-    class Particle {
-        constructor() {
-            this.x = Math.random() * width;
-            this.y = Math.random() * height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = Math.random() * 1 - 0.5;
-            this.speedY = Math.random() * 1 - 0.5;
-            this.opacity = Math.random() * 0.5 + 0.1;
-        }
-        
-        update() {
-            this.x += this.speedX;
-            this.y += this.speedY;
-            
-            if (this.x > width) this.x = 0;
-            if (this.x < 0) this.x = width;
-            if (this.y > height) this.y = 0;
-            if (this.y < 0) this.y = height;
-        }
-        
-        draw() {
-            ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.fill();
-        }
-    }
-    
-    for (let i = 0; i < particleCount; i++) {
-        particles.push(new Particle());
-    }
-    
-    function animate() {
-        ctx.clearRect(0, 0, width, height);
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-        }
-        requestAnimationFrame(animate);
-    }
-    
-    animate();
 });
