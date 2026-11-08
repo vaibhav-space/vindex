@@ -3,80 +3,144 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vindex Studio — Video Knowledge Compiler</title>
-    <!-- Fonts -->
+    <title>vindex studio — Video Knowledge Compiler</title>
+    <!-- Fonts: Inter & JetBrains Mono for razor-sharp Geist-grade rendering -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="demo_data.js"></script>
     <style>
-        /* CSS Design System Tokens */
+        /* ==========================================================================
+           Geist / Vercel Design System Tokens
+           Strict monochrome hierarchy: zero AI-slop purple/indigo saturation.
+           ========================================================================== */
         :root {
-            /* Dark Theme (Default) */
-            --bg-base: #090a0f;
-            --bg-surface: #10131c;
-            --bg-card: #151926;
-            --bg-card-subtle: #1c2233;
-            --border-subtle: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.16);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent-primary: #6366f1;
-            --accent-hover: #4f46e5;
-            --accent-subtle: rgba(99, 102, 241, 0.14);
-            --accent-text: #818cf8;
-            --status-success: #10b981;
-            --status-success-bg: rgba(16, 185, 129, 0.12);
-            --code-bg: #0b0d14;
-            --shadow-card: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
-            --timeline-marker: #818cf8;
+            /* Vercel Dark (Default) */
+            --bg-page: #000000;
+            --bg-surface: #0a0a0a;
+            --bg-surface-elevated: #111111;
+            --bg-surface-hover: #171717;
+            --border-subtle: #222222;
+            --border-hover: #333333;
+            --border-strong: #444444;
+            --text-primary: #ededed;
+            --text-secondary: #a1a1a1;
+            --text-tertiary: #666666;
+            --text-disabled: #383838;
+
+            --btn-primary-bg: #ffffff;
+            --btn-primary-fg: #000000;
+            --btn-primary-hover: #e5e5e5;
+
+            --btn-secondary-bg: transparent;
+            --btn-secondary-border: #2e2e2e;
+            --btn-secondary-fg: #ededed;
+            --btn-secondary-hover: #171717;
+
+            --badge-bg: #111111;
+            --badge-border: #262626;
+            --badge-fg: #888888;
+
+            --code-bg: #050505;
+            --code-border: #1f1f1f;
+
+            --status-dot: #10b981;
+            --link-color: #0070f3;
+            --selection-bg: rgba(255, 255, 255, 0.15);
+
+            --switch-track: #222222;
+            --switch-track-active: #ffffff;
+            --switch-thumb: #666666;
+            --switch-thumb-active: #000000;
+
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
         }
 
         [data-theme="light"] {
-            /* Light Theme */
-            --bg-base: #f8fafc;
+            /* Vercel Light */
+            --bg-page: #ffffff;
             --bg-surface: #ffffff;
-            --bg-card: #ffffff;
-            --bg-card-subtle: #f1f5f9;
-            --border-subtle: rgba(15, 23, 42, 0.08);
-            --border-strong: rgba(15, 23, 42, 0.16);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --accent-primary: #4f46e5;
-            --accent-hover: #4338ca;
-            --accent-subtle: rgba(79, 70, 229, 0.08);
-            --accent-text: #4f46e5;
-            --status-success: #059669;
-            --status-success-bg: rgba(5, 150, 105, 0.1);
-            --code-bg: #f8fafc;
-            --shadow-card: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-            --timeline-marker: #4f46e5;
+            --bg-surface-elevated: #fafafa;
+            --bg-surface-hover: #f5f5f5;
+            --border-subtle: #eaeaea;
+            --border-hover: #d4d4d4;
+            --border-strong: #999999;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --text-tertiary: #888888;
+            --text-disabled: #cccccc;
+
+            --btn-primary-bg: #000000;
+            --btn-primary-fg: #ffffff;
+            --btn-primary-hover: #262626;
+
+            --btn-secondary-bg: #ffffff;
+            --btn-secondary-border: #eaeaea;
+            --btn-secondary-fg: #171717;
+            --btn-secondary-hover: #fafafa;
+
+            --badge-bg: #f5f5f5;
+            --badge-border: #e5e5e5;
+            --badge-fg: #666666;
+
+            --code-bg: #fafafa;
+            --code-border: #eaeaea;
+
+            --status-dot: #059669;
+            --link-color: #0070f3;
+            --selection-bg: rgba(0, 0, 0, 0.08);
+
+            --switch-track: #e5e5e5;
+            --switch-track-active: #000000;
+            --switch-thumb: #ffffff;
+            --switch-thumb-active: #ffffff;
         }
 
+        /* Reset & Base Setup */
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
         }
 
+        ::selection {
+            background: var(--selection-bg);
+            color: var(--text-primary);
+        }
+
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: var(--bg-base);
+            font-family: var(--font-sans);
+            background-color: var(--bg-page);
             color: var(--text-primary);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background-color 0.2s ease, color 0.2s ease;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
 
-        /* Top Navigation Bar */
+        /* Themed Minimalist Scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--border-hover);
+            border-radius: 3px;
+        }
+
+        /* ==========================================================================
+           Navigation Header
+           ========================================================================== */
         header {
             background: var(--bg-surface);
             border-bottom: 1px solid var(--border-subtle);
-            padding: 0.85rem 1.75rem;
+            padding: 0.75rem 1.5rem;
             position: sticky;
             top: 0;
             z-index: 100;
@@ -88,107 +152,96 @@
         .header-left {
             display: flex;
             align-items: center;
-            gap: 1.25rem;
+            gap: 0.85rem;
         }
 
         .logo-wrap {
             display: flex;
             align-items: center;
-            gap: 0.65rem;
+            gap: 0.6rem;
             text-decoration: none;
             color: var(--text-primary);
         }
 
-        .logo-badge {
-            width: 30px;
-            height: 30px;
-            background: var(--accent-primary);
-            border-radius: 6px;
+        /* Clean Vercel Geometric Triangle Mark */
+        .logo-mark {
+            width: 22px;
+            height: 22px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 1rem;
-            font-family: 'JetBrains Mono', monospace;
+            color: var(--text-primary);
         }
 
-        .logo-name {
-            font-size: 1.2rem;
-            font-weight: 700;
+        .logo-title {
+            font-size: 0.95rem;
+            font-weight: 600;
             letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
 
         .version-tag {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.75rem;
-            padding: 0.2rem 0.55rem;
-            background: var(--accent-subtle);
-            color: var(--accent-text);
-            border-radius: 4px;
-            font-weight: 600;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.15rem 0.5rem;
+            background: var(--badge-bg);
+            border: 1px solid var(--badge-border);
+            color: var(--text-tertiary);
+            border-radius: 9999px;
+            font-weight: 500;
         }
 
         .header-right {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .engine-status {
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--status-success);
-            background: var(--status-success-bg);
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-weight: 500;
+            gap: 0.45rem;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.65rem;
+            border-radius: 9999px;
+            border: 1px solid var(--border-subtle);
+            background: var(--bg-surface-elevated);
         }
 
         .status-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: var(--status-success);
-            animation: pulse 2s infinite ease-in-out;
+            background: var(--status-dot);
         }
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.4; transform: scale(0.9); }
-        }
-
-        /* Demo Button */
         .btn-demo-load {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.45rem 0.9rem;
-            font-size: 0.82rem;
-            font-weight: 600;
+            gap: 0.45rem;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+            font-weight: 500;
             border-radius: 6px;
-            background: var(--accent-subtle);
-            color: var(--accent-text);
+            background: var(--btn-secondary-bg);
+            color: var(--text-primary);
             border: 1px solid var(--border-subtle);
             cursor: pointer;
-            transition: all 0.15s ease;
+            transition: border-color 0.15s, background-color 0.15s;
         }
 
         .btn-demo-load:hover {
-            background: var(--accent-primary);
-            color: #ffffff;
-            border-color: var(--accent-primary);
+            border-color: var(--border-hover);
+            background: var(--bg-surface-hover);
         }
 
-        /* Theme Toggle Button */
         .theme-toggle-btn {
-            background: var(--bg-card-subtle);
+            background: transparent;
             border: 1px solid var(--border-subtle);
             color: var(--text-secondary);
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             border-radius: 6px;
             display: flex;
             align-items: center;
@@ -199,96 +252,101 @@
 
         .theme-toggle-btn:hover {
             color: var(--text-primary);
-            border-color: var(--border-strong);
+            border-color: var(--border-hover);
+            background: var(--bg-surface-hover);
         }
 
-        /* Main Workspace Layout */
+        /* ==========================================================================
+           Main Workspace Layout
+           ========================================================================== */
         main {
             flex: 1;
             display: flex;
             width: 100%;
-            max-width: 1720px;
+            max-width: 1600px;
             margin: 0 auto;
-            padding: 1.5rem;
-            gap: 1.5rem;
-            height: calc(100vh - 65px);
+            padding: 1.25rem 1.5rem;
+            gap: 1.25rem;
+            height: calc(100vh - 58px);
         }
 
         .left-col {
-            width: 420px;
+            width: 380px;
+            min-width: 380px;
             display: flex;
             flex-direction: column;
-            gap: 1.25rem;
+            gap: 1rem;
             height: 100%;
             overflow-y: auto;
-            padding-right: 0.25rem;
         }
 
         .right-col {
             flex: 1;
             background: var(--bg-surface);
             border: 1px solid var(--border-subtle);
-            border-radius: 12px;
+            border-radius: 8px;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             height: 100%;
-            box-shadow: var(--shadow-card);
         }
 
         .panel-card {
             background: var(--bg-surface);
             border: 1px solid var(--border-subtle);
-            border-radius: 12px;
-            padding: 1.25rem;
-            box-shadow: var(--shadow-card);
+            border-radius: 8px;
+            padding: 1.15rem;
         }
 
         .card-heading {
-            font-size: 0.95rem;
+            font-size: 0.72rem;
             font-weight: 600;
-            margin-bottom: 0.85rem;
-            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-tertiary);
             display: flex;
             align-items: center;
             justify-content: space-between;
+            margin-bottom: 0.85rem;
         }
 
-        /* Upload Zone */
+        /* ==========================================================================
+           Upload Dropzone (Vercel Style)
+           ========================================================================== */
         .upload-dropzone {
-            border: 2px dashed var(--border-strong);
-            border-radius: 8px;
-            padding: 1.75rem 1rem;
+            border: 1px dashed var(--border-hover);
+            border-radius: 6px;
+            padding: 1.5rem 1rem;
             text-align: center;
             cursor: pointer;
-            transition: all 0.15s ease;
-            background: var(--bg-card-subtle);
+            transition: border-color 0.15s ease, background-color 0.15s ease;
+            background: var(--bg-surface-elevated);
             position: relative;
         }
 
         .upload-dropzone:hover, .upload-dropzone.dragover {
-            border-color: var(--accent-primary);
-            background: var(--accent-subtle);
+            border-color: var(--border-strong);
+            background: var(--bg-surface-hover);
         }
 
         .upload-icon {
-            width: 32px;
-            height: 32px;
-            margin: 0 auto 0.75rem auto;
-            color: var(--accent-text);
+            width: 22px;
+            height: 22px;
+            margin: 0 auto 0.5rem auto;
+            color: var(--text-tertiary);
             display: block;
         }
 
         .upload-dropzone p {
-            font-size: 0.9rem;
+            font-size: 0.84rem;
             font-weight: 500;
             color: var(--text-primary);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.2rem;
         }
 
         .upload-dropzone span {
-            font-size: 0.78rem;
-            color: var(--text-muted);
+            font-size: 0.74rem;
+            color: var(--text-tertiary);
         }
 
         .file-input {
@@ -303,8 +361,8 @@
 
         /* Video Preview Area */
         .video-player-container {
-            margin-top: 1rem;
-            border-radius: 8px;
+            margin-top: 0.85rem;
+            border-radius: 6px;
             overflow: hidden;
             border: 1px solid var(--border-subtle);
             background: #000000;
@@ -312,47 +370,52 @@
 
         .video-player-container video {
             width: 100%;
-            max-height: 230px;
+            max-height: 215px;
             display: block;
             background: #000000;
         }
 
         .video-meta-bar {
-            padding: 0.5rem 0.75rem;
-            font-size: 0.75rem;
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--text-muted);
+            padding: 0.45rem 0.75rem;
+            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            color: var(--text-tertiary);
             display: flex;
             justify-content: space-between;
-            background: var(--bg-card);
+            background: var(--bg-surface-elevated);
             border-top: 1px solid var(--border-subtle);
         }
 
-        /* Perception Pipeline Toggles */
+        /* Pipeline Stages */
         .stage-options {
-            margin-top: 1rem;
+            margin-top: 0.85rem;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.45rem;
         }
 
         .stage-title {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            color: var(--text-muted);
+            color: var(--text-tertiary);
             font-weight: 600;
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.15rem;
         }
 
         .toggle-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            background: var(--bg-card-subtle);
-            padding: 0.65rem 0.85rem;
+            background: var(--bg-surface-elevated);
+            padding: 0.6rem 0.8rem;
             border-radius: 6px;
             border: 1px solid var(--border-subtle);
+            transition: border-color 0.15s;
+        }
+
+        .toggle-row:hover {
+            border-color: var(--border-hover);
         }
 
         .toggle-info {
@@ -361,22 +424,22 @@
         }
 
         .toggle-title {
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             font-weight: 500;
             color: var(--text-primary);
         }
 
         .toggle-desc {
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            font-size: 0.72rem;
+            color: var(--text-tertiary);
         }
 
         /* Switch UI */
         .switch {
             position: relative;
             display: inline-block;
-            width: 38px;
-            height: 20px;
+            width: 32px;
+            height: 18px;
         }
 
         .switch input {
@@ -389,56 +452,60 @@
             position: absolute;
             cursor: pointer;
             top: 0; left: 0; right: 0; bottom: 0;
-            background-color: var(--border-strong);
-            transition: .2s;
+            background-color: var(--switch-track);
+            border: 1px solid var(--border-subtle);
+            transition: .15s ease;
             border-radius: 20px;
         }
 
         .slider:before {
             position: absolute;
             content: "";
-            height: 14px;
-            width: 14px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .2s;
+            height: 12px;
+            width: 12px;
+            left: 2px;
+            bottom: 2px;
+            background-color: var(--switch-thumb);
+            transition: .15s ease;
             border-radius: 50%;
         }
 
         input:checked + .slider {
-            background-color: var(--accent-primary);
+            background-color: var(--switch-track-active);
+            border-color: var(--switch-track-active);
         }
 
         input:checked + .slider:before {
-            transform: translateX(18px);
+            transform: translateX(14px);
+            background-color: var(--switch-thumb-active);
         }
 
-        /* Action Buttons */
+        /* Compile Button (Vercel High-Contrast Button) */
         .btn-compile {
             width: 100%;
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: var(--accent-primary);
-            color: #ffffff;
-            border: none;
+            margin-top: 0.85rem;
+            padding: 0.65rem;
+            background: var(--btn-primary-bg);
+            color: var(--btn-primary-fg);
+            border: 1px solid var(--btn-primary-bg);
             border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 500;
+            font-size: 0.84rem;
             cursor: pointer;
-            transition: background 0.15s ease;
+            transition: background-color 0.15s ease, opacity 0.15s ease;
         }
 
         .btn-compile:hover:not(:disabled) {
-            background: var(--accent-hover);
+            background: var(--btn-primary-hover);
+            border-color: var(--btn-primary-hover);
         }
 
         .btn-compile:disabled {
-            opacity: 0.5;
+            opacity: 0.35;
             cursor: not-allowed;
         }
 
-        /* Execution History */
+        /* History Card */
         .history-card {
             flex: 1;
             display: flex;
@@ -451,13 +518,13 @@
             overflow-y: auto;
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.45rem;
         }
 
         .job-item {
-            padding: 0.65rem 0.85rem;
+            padding: 0.6rem 0.75rem;
             border-radius: 6px;
-            background: var(--bg-card-subtle);
+            background: var(--bg-surface-elevated);
             border: 1px solid var(--border-subtle);
             font-size: 0.8rem;
             display: flex;
@@ -468,38 +535,42 @@
         }
 
         .job-item:hover {
-            border-color: var(--accent-primary);
+            border-color: var(--border-hover);
         }
 
         .job-status-badge {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
-            padding: 0.2rem 0.5rem;
-            border-radius: 4px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            padding: 0.15rem 0.45rem;
+            border-radius: 9999px;
             font-weight: 500;
+            border: 1px solid var(--border-subtle);
+            background: var(--badge-bg);
+            color: var(--text-secondary);
         }
 
-        .badge-success { background: var(--status-success-bg); color: var(--status-success); }
-        .badge-running { background: var(--accent-subtle); color: var(--accent-text); }
-
-        /* Right Panel: Tabs */
+        /* ==========================================================================
+           Right Column & Vercel Underline Tabs
+           ========================================================================== */
         .tabs-nav {
             display: flex;
             border-bottom: 1px solid var(--border-subtle);
             background: var(--bg-surface);
-            padding: 0 1rem;
+            padding: 0 1.25rem;
+            gap: 0.25rem;
         }
 
         .tab-btn {
             background: transparent;
             border: none;
             color: var(--text-secondary);
-            padding: 1rem 1.25rem;
-            font-size: 0.88rem;
-            font-weight: 600;
+            padding: 0.85rem 1rem;
+            font-size: 0.82rem;
+            font-weight: 500;
             cursor: pointer;
-            border-bottom: 2px solid transparent;
-            transition: all 0.15s ease;
+            position: relative;
+            transition: color 0.15s ease;
+            font-family: var(--font-sans);
         }
 
         .tab-btn:hover {
@@ -507,18 +578,28 @@
         }
 
         .tab-btn.active {
-            color: var(--accent-text);
-            border-bottom-color: var(--accent-primary);
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .tab-btn.active::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--text-primary);
         }
 
         .tabs-body {
             flex: 1;
             overflow-y: auto;
-            padding: 1.5rem;
+            padding: 1.25rem;
             position: relative;
         }
 
-        /* Empty / Idle State */
+        /* Idle State */
         .idle-state {
             height: 100%;
             display: flex;
@@ -526,49 +607,49 @@
             align-items: center;
             justify-content: center;
             text-align: center;
-            color: var(--text-muted);
+            color: var(--text-tertiary);
             padding: 2rem;
         }
 
         .idle-icon {
-            width: 48px;
-            height: 48px;
+            width: 40px;
+            height: 40px;
             margin-bottom: 1rem;
-            color: var(--text-muted);
-            opacity: 0.5;
+            color: var(--text-tertiary);
         }
 
         .idle-state h3 {
-            font-size: 1.1rem;
+            font-size: 0.95rem;
+            font-weight: 600;
             color: var(--text-primary);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.4rem;
         }
 
         .idle-state p {
             max-width: 420px;
-            font-size: 0.9rem;
-            line-height: 1.5;
+            font-size: 0.82rem;
+            line-height: 1.55;
         }
 
         /* Timeline Scene Cards */
         .scene-card {
-            background: var(--bg-card);
+            background: var(--bg-surface);
             border: 1px solid var(--border-subtle);
-            border-radius: 8px;
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
+            border-radius: 6px;
+            padding: 1.15rem;
+            margin-bottom: 1rem;
             transition: border-color 0.15s ease;
         }
 
         .scene-card:hover {
-            border-color: var(--border-strong);
+            border-color: var(--border-hover);
         }
 
         .scene-card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 0.75rem;
+            margin-bottom: 0.65rem;
         }
 
         .scene-badge-group {
@@ -578,42 +659,46 @@
         }
 
         .scene-id {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.8rem;
+            font-family: var(--font-mono);
+            font-size: 0.72rem;
             font-weight: 600;
-            color: var(--accent-text);
-            background: var(--accent-subtle);
-            padding: 0.2rem 0.5rem;
+            color: var(--text-primary);
+            background: var(--badge-bg);
+            border: 1px solid var(--border-subtle);
+            padding: 0.15rem 0.45rem;
             border-radius: 4px;
         }
 
         .scene-timecode {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
-            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 0.74rem;
+            color: var(--text-tertiary);
             cursor: pointer;
-            padding: 0.2rem 0.4rem;
+            padding: 0.15rem 0.4rem;
             border-radius: 4px;
-            transition: background 0.15s ease;
+            transition: color 0.15s ease, background 0.15s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
         }
 
         .scene-timecode:hover {
-            background: var(--accent-subtle);
-            color: var(--accent-text);
+            color: var(--text-primary);
+            background: var(--bg-surface-elevated);
         }
 
         .scene-caption {
-            font-size: 0.92rem;
-            line-height: 1.55;
+            font-size: 0.86rem;
+            line-height: 1.6;
             color: var(--text-primary);
-            margin-bottom: 1rem;
+            margin-bottom: 0.85rem;
         }
 
         /* Shot Details inside Scene */
         .shot-container {
             display: flex;
-            gap: 1.25rem;
-            background: var(--bg-card-subtle);
+            gap: 1rem;
+            background: var(--bg-surface-elevated);
             border: 1px solid var(--border-subtle);
             border-radius: 6px;
             padding: 0.85rem;
@@ -621,12 +706,17 @@
 
         .shot-thumb {
             width: 140px;
-            height: 80px;
+            height: 78px;
             object-fit: cover;
             border-radius: 4px;
             border: 1px solid var(--border-subtle);
             cursor: pointer;
             background: #000;
+            transition: opacity 0.15s ease;
+        }
+
+        .shot-thumb:hover {
+            opacity: 0.9;
         }
 
         .shot-info {
@@ -634,15 +724,15 @@
             display: flex;
             flex-direction: column;
             gap: 0.4rem;
-            font-size: 0.82rem;
+            font-size: 0.8rem;
         }
 
         .obs-pill {
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.72rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
             padding: 0.15rem 0.45rem;
             border-radius: 4px;
             background: var(--bg-surface);
@@ -658,57 +748,59 @@
         }
 
         .asr-word {
-            font-size: 0.78rem;
-            padding: 0.15rem 0.4rem;
+            font-size: 0.75rem;
+            padding: 0.15rem 0.45rem;
             background: var(--bg-surface);
             border-radius: 4px;
-            color: var(--text-primary);
+            color: var(--text-secondary);
             border: 1px solid var(--border-subtle);
             cursor: pointer;
+            transition: border-color 0.15s, color 0.15s;
         }
 
         .asr-word:hover {
-            border-color: var(--accent-primary);
-            color: var(--accent-text);
+            border-color: var(--border-strong);
+            color: var(--text-primary);
         }
 
         /* Markdown & JSON Pre Views */
         .markdown-container {
-            font-size: 0.92rem;
+            font-size: 0.86rem;
             line-height: 1.65;
             color: var(--text-primary);
             max-width: 800px;
         }
 
         .markdown-container h1, .markdown-container h2, .markdown-container h3 {
-            margin-top: 1.5rem;
-            margin-bottom: 0.75rem;
+            margin-top: 1.25rem;
+            margin-bottom: 0.65rem;
             letter-spacing: -0.01em;
+            color: var(--text-primary);
         }
 
-        .markdown-container h1 { font-size: 1.4rem; }
-        .markdown-container h2 { font-size: 1.15rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.5rem; }
-        .markdown-container h3 { font-size: 1rem; color: var(--accent-text); }
+        .markdown-container h1 { font-size: 1.2rem; }
+        .markdown-container h2 { font-size: 1rem; border-bottom: 1px solid var(--border-subtle); padding-bottom: 0.4rem; }
+        .markdown-container h3 { font-size: 0.88rem; color: var(--text-secondary); }
         .markdown-container ul { margin-left: 1.25rem; margin-bottom: 1rem; }
-        .markdown-container li { margin-bottom: 0.35rem; }
+        .markdown-container li { margin-bottom: 0.3rem; }
         .markdown-container blockquote {
-            border-left: 3px solid var(--accent-primary);
-            padding: 0.65rem 1rem;
-            background: var(--bg-card-subtle);
+            border-left: 2px solid var(--text-primary);
+            padding: 0.5rem 0.85rem;
+            background: var(--bg-surface-elevated);
             border-radius: 0 4px 4px 0;
-            margin: 1rem 0;
+            margin: 0.85rem 0;
             color: var(--text-secondary);
         }
 
         .json-code-box {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.82rem;
+            font-family: var(--font-mono);
+            font-size: 0.76rem;
             line-height: 1.55;
             background: var(--code-bg);
-            padding: 1.25rem;
+            padding: 1.15rem;
             border-radius: 6px;
             overflow-x: auto;
-            border: 1px solid var(--border-subtle);
+            border: 1px solid var(--code-border);
             color: var(--text-secondary);
         }
 
@@ -719,14 +811,14 @@
             align-items: center;
             justify-content: center;
             height: 100%;
-            gap: 1rem;
+            gap: 0.85rem;
         }
 
         .spin-circle {
-            width: 36px;
-            height: 36px;
-            border: 3px solid var(--border-subtle);
-            border-top-color: var(--accent-primary);
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--border-subtle);
+            border-top-color: var(--text-primary);
             border-radius: 50%;
             animation: spin 0.8s linear infinite;
         }
@@ -735,7 +827,7 @@
 
         @media (max-width: 1024px) {
             main { flex-direction: column; height: auto; }
-            .left-col { width: 100%; height: auto; }
+            .left-col { width: 100%; min-width: 100%; height: auto; }
             .right-col { height: 700px; }
         }
     </style>
@@ -746,25 +838,30 @@
     <header>
         <div class="header-left">
             <div class="logo-wrap">
-                <div class="logo-badge">V</div>
-                <div class="logo-name">vindex studio</div>
+                <div class="logo-mark">
+                    <!-- Clean geometric triangle mark -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L2 22h20L12 2z"/>
+                    </svg>
+                </div>
+                <div class="logo-title">vindex studio</div>
             </div>
-            <div class="version-tag">v0.2.0 • Compiler Engine</div>
+            <div class="version-tag">v0.2.0</div>
         </div>
 
         <div class="header-right">
             <div class="engine-status">
                 <span class="status-dot"></span>
-                <span>Local Server Connected</span>
+                <span>Engine Ready</span>
             </div>
 
             <button id="btnLoadDemo" class="btn-demo-load" title="Load sample video & compiled knowledge index">
-                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
-                Load Live Demo Video
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+                <span>Load Live Demo</span>
             </button>
 
             <button id="themeToggle" class="theme-toggle-btn" title="Toggle Light / Dark mode" aria-label="Toggle theme">
-                <svg id="themeIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="12" cy="12" r="5"></circle>
                     <line x1="12" y1="1" x2="12" y2="3"></line>
                     <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -787,7 +884,7 @@
             <div class="panel-card">
                 <div class="card-heading">
                     <span>Input Video Source</span>
-                    <span id="activeVideoTag" style="font-size: 0.75rem; color: var(--text-muted);">None</span>
+                    <span id="activeVideoTag" style="font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-tertiary);">None</span>
                 </div>
 
                 <div class="upload-dropzone" id="uploadZone">
@@ -796,8 +893,8 @@
                         <polyline points="17 8 12 3 7 8"></polyline>
                         <line x1="12" y1="3" x2="12" y2="15"></line>
                     </svg>
-                    <p id="uploadLabel">Drag & drop video file</p>
-                    <span id="uploadHint">or click to browse filesystem (MP4, MOV, MKV)</span>
+                    <p id="uploadLabel">Upload Video File</p>
+                    <span id="uploadHint">Drag & drop or click to browse (MP4, MOV, MKV)</span>
                     <input type="file" id="videoFile" class="file-input" accept="video/*">
                 </div>
 
@@ -828,7 +925,7 @@
                     <div class="toggle-row">
                         <div class="toggle-info">
                             <span class="toggle-title">OCR Text Extraction</span>
-                            <span class="toggle-desc">PaddleOCR on-screen bounding boxes</span>
+                            <span class="toggle-desc">PaddleOCR bounding boxes</span>
                         </div>
                         <label class="switch">
                             <input type="checkbox" id="stage_ocr" checked>
@@ -859,13 +956,13 @@
                 <div class="jobs-list" id="jobsList">
                     <div class="job-item" id="demoJobItem" style="display: none;" onclick="loadDemoArtifacts()">
                         <div>
-                            <div style="font-weight: 600; color: var(--text-primary);">demo.mp4</div>
-                            <div style="font-size: 0.72rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">93738e5a • 3 Scenes • 5 Events</div>
+                            <div style="font-weight: 500; color: var(--text-primary);">demo.mp4</div>
+                            <div style="font-size: 0.7rem; color: var(--text-tertiary); font-family: var(--font-mono);">93738e5a • 3 Scenes • 5 Events</div>
                         </div>
-                        <span class="job-status-badge badge-success">Completed</span>
+                        <span class="job-status-badge">Completed</span>
                     </div>
-                    <div id="noHistory" style="padding: 1rem 0; text-align: center; color: var(--text-muted); font-size: 0.82rem;">
-                        No compilation jobs yet. Load the demo or upload a video.
+                    <div id="noHistory" style="padding: 1rem 0; text-align: center; color: var(--text-tertiary); font-size: 0.78rem;">
+                        No compilation jobs yet. Load demo or upload a video.
                     </div>
                 </div>
             </div>
@@ -887,14 +984,16 @@
                         <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
                     </svg>
                     <h3>No compilation loaded</h3>
-                    <p>Click "Load Live Demo Video" in the top bar to inspect an actual compiled knowledge artifact, or drop a video in the left panel to compile locally.</p>
+                    <p>Click "Load Live Demo" in the top bar to inspect an actual compiled knowledge artifact, or upload a video in the left panel to compile locally.</p>
                 </div>
 
-                <!-- Processing Spinner -->
+                <!-- Processing / Spinner State -->
                 <div class="spinner-container" id="processingState" style="display: none;">
                     <div class="spin-circle"></div>
-                    <h3 style="font-size: 1rem; color: var(--text-primary);">Compiling Video Knowledge Artifacts</h3>
-                    <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; color: var(--text-muted);" id="progressLog">Running perception pipeline...</div>
+                    <div style="text-align: center;">
+                        <h4 style="font-size: 0.9rem; font-weight: 500; color: var(--text-primary); margin-bottom: 0.25rem;">Compiling Video Perception</h4>
+                        <p id="progressLog" style="font-size: 0.78rem; font-family: var(--font-mono); color: var(--text-tertiary);">Running PySceneDetect...</p>
+                    </div>
                 </div>
 
                 <!-- Tab 1: Timeline -->
@@ -999,7 +1098,7 @@
 
         function handleFileSelect(file) {
             if (!file.type.startsWith('video/')) {
-                alert('Please upload a video file (MP4, MOV, MKV).');
+                alert('Please upload a valid video file (MP4, MOV, MKV).');
                 return;
             }
             selectedFile = file;
@@ -1027,7 +1126,6 @@
 
         function loadDemoArtifacts() {
             if (typeof DEMO_VINDEX_DATA === 'undefined') {
-                alert('Demo data loading failed.');
                 return;
             }
             selectedFile = null;
@@ -1039,7 +1137,7 @@
             metaRes.innerText = DEMO_VINDEX_DATA.metadata.resolution;
             metaDur.innerText = DEMO_VINDEX_DATA.metadata.duration;
             uploadLabel.innerText = "gemini_generated_video_08000ccb.mp4";
-            uploadHint.innerText = "Live Demo Video • 10.03s • 4.4 MB";
+            uploadHint.innerText = "Loaded official demo video • 10.03s • 4.4 MB";
             activeVideoTag.innerText = "demo.mp4";
             btnCompile.disabled = true;
 
@@ -1083,9 +1181,12 @@
                     <div class="scene-card-header">
                         <div class="scene-badge-group">
                             <span class="scene-id">${scene.scene_id}</span>
-                            <span style="font-weight: 600; font-size: 0.88rem;">Scene ${sIdx + 1}</span>
+                            <span style="font-weight: 500; font-size: 0.82rem; color: var(--text-primary);">Scene ${sIdx + 1}</span>
                         </div>
-                        <span class="scene-timecode" onclick="seekVideo(${scene.start_ms / 1000})">⏱️ ${startSec}s – ${endSec}s ↗</span>
+                        <span class="scene-timecode" onclick="seekVideo(${scene.start_ms / 1000})">
+                            <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+                            ${startSec}s – ${endSec}s ↗
+                        </span>
                     </div>
                     <div class="scene-caption">${scene.dominant_caption}</div>
                 `;
@@ -1096,17 +1197,18 @@
                     <div class="shot-container">
                         ${framePath ? `<img class="shot-thumb" src="${framePath}" alt="Shot ${shot.shot_id}" onclick="seekVideo(${shot.start_ms / 1000})" title="Click to seek video">` : ''}
                         <div class="shot-info">
-                            <div style="display:flex; justify-content:space-between;">
+                            <div style="display:flex; justify-content:space-between; align-items: center;">
                                 <span class="obs-pill"><strong>${shot.shot_id}</strong> (${(shot.start_ms/1000).toFixed(1)}s – ${(shot.end_ms/1000).toFixed(1)}s)</span>
-                                <div>
-                                    ${shot.ocr.length > 0 ? `<span class="obs-pill" style="border-color: rgba(99, 102, 241, 0.4); color: var(--accent-text);">OCR: ${shot.ocr.length} items</span>` : ''}
-                                    ${shot.asr_words.length > 0 ? `<span class="obs-pill" style="border-color: rgba(16, 185, 129, 0.4); color: var(--status-success);">ASR: ${shot.asr_words.length} words</span>` : ''}
+                                <div style="display:flex; gap: 0.35rem;">
+                                    ${shot.ocr.length > 0 ? `<span class="obs-pill">OCR: ${shot.ocr.length} items</span>` : ''}
+                                    ${shot.asr_words.length > 0 ? `<span class="obs-pill">ASR: ${shot.asr_words.length} words</span>` : ''}
                                 </div>
                             </div>
 
                             ${shot.ocr.length > 0 ? `
-                                <div style="margin-top:0.35rem; font-size:0.75rem; color: var(--text-muted);">
-                                    Detected Text: ${shot.ocr.map(o => `<span style="font-family:'JetBrains Mono'; background:var(--bg-surface); padding:1px 4px; border-radius:3px; color:var(--text-primary); border:1px solid var(--border-subtle); margin-right:4px;">"${o.text}"</span>`).join('')}
+                                <div style="margin-top:0.35rem; font-size:0.74rem; color: var(--text-tertiary); display: flex; flex-wrap: wrap; gap: 4px; align-items: center;">
+                                    <span>OCR:</span>
+                                    ${shot.ocr.map(o => `<span style="font-family:var(--font-mono); background:var(--bg-surface); padding:1px 5px; border-radius:3px; color:var(--text-primary); border:1px solid var(--border-subtle);">"${o.text}"</span>`).join('')}
                                 </div>
                             ` : ''}
 
@@ -1127,14 +1229,13 @@
         }
 
         function renderNarration(markdown) {
-            // Simple robust markdown parser for clean presentation
             let parsed = markdown
                 .replace(/^# (.*$)/gim, '<h1>$1</h1>')
                 .replace(/^## (.*$)/gim, '<h2>$1</h2>')
                 .replace(/^### (.*$)/gim, '<h3>$1</h3>')
                 .replace(/\*\*(.*?)\*\*/gim, '<strong>$1</strong>')
                 .replace(/\*(.*?)\*/gim, '<em>$1</em>')
-                .replace(/`([^`]+)`/gim, '<code style="font-family: \'JetBrains Mono\'; background: var(--bg-card-subtle); padding: 2px 4px; border-radius: 4px; font-size: 0.85em; border: 1px solid var(--border-subtle);">$1</code>')
+                .replace(/`([^`]+)`/gim, '<code style="font-family: var(--font-mono); background: var(--bg-surface-elevated); padding: 2px 5px; border-radius: 4px; font-size: 0.85em; border: 1px solid var(--border-subtle); color: var(--text-primary);">$1</code>')
                 .replace(/^\> \[!NOTE\]\s*\n\> (.*$)/gim, '<blockquote><strong>Note:</strong> $1</blockquote>')
                 .replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>')
                 .replace(/^\- (.*$)/gim, '<li>$1</li>')
@@ -1154,7 +1255,7 @@
         function seekVideo(seconds) {
             if (videoPlayer && !isNaN(seconds)) {
                 videoPlayer.currentTime = seconds;
-                videoPlayer.play();
+                videoPlayer.play().catch(() => {});
             }
         }
 
@@ -1179,13 +1280,21 @@
             progressLog.innerText = 'Uploading video file...';
 
             try {
-                const res = await fetch('/api/compile', { method: 'POST', body: formData });
-                if (!res.ok) throw new Error('API server error ' + res.status);
-                const data = await res.json();
+                const response = await fetch('/api/compile', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Upload failed with status ${response.status}`);
+                }
+
+                const data = await response.json();
                 activeJobId = data.job_id;
+                btnCompile.innerText = 'Compiling...';
                 startPolling(activeJobId);
             } catch (err) {
-                alert('Compilation error: ' + err.message);
+                alert('Compilation request failed: ' + err.message);
                 btnCompile.disabled = false;
                 btnCompile.innerText = 'Compile Video Perception';
                 processingState.style.display = 'none';
@@ -1194,7 +1303,6 @@
         });
 
         function startPolling(jobId) {
-            progressLog.innerText = 'Compilation queued. Initializing models...';
             if (pollingTimer) clearInterval(pollingTimer);
 
             pollingTimer = setInterval(async () => {
